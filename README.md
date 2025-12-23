@@ -79,6 +79,5 @@ The command orchestrates everything in the main Claude session:
 Each reviewer subagent receives a completely self-contained prompt with:
 - Specific persona (Senior Architect, Security Engineer, etc.)
 - Plan file path only
-- "Do not assume any prior context" instruction
 
 No conversation history, previous findings, or iteration context leaks into subagents.

@@ -29,35 +29,35 @@ Use these exact prompt templates (only substitute `{plan_path}` with the actual 
 
 ```
 Task 1 - Design Review:
-  prompt: "You are a Senior Architect. Read the plan at {plan_path}. Review for DESIGN issues only: architecture choices, tradeoffs, alternatives not considered. Do not assume any prior context."
+  prompt: "You are a Senior Architect. Read the plan at {plan_path}. Review for DESIGN issues only: architecture choices, tradeoffs, alternatives not considered."
   subagent_type: "plan-reviewer:reviewer"
 
 Task 2 - Completeness Review:
-  prompt: "You are a Technical Lead. Read the plan at {plan_path}. Review for COMPLETENESS issues only: missing steps, edge cases, error handling gaps. Do not assume any prior context."
+  prompt: "You are a Technical Lead. Read the plan at {plan_path}. Review for COMPLETENESS issues only: missing steps, edge cases, error handling gaps."
   subagent_type: "plan-reviewer:reviewer"
 
 Task 3 - Feasibility Review:
-  prompt: "You are a Staff Engineer. Read the plan at {plan_path}. Review for FEASIBILITY issues only: technical blockers, dependencies, implementation concerns. Verify referenced files and APIs actually exist in the codebase. Do not assume any prior context."
+  prompt: "You are a Staff Engineer. Read the plan at {plan_path}. Review for FEASIBILITY issues only: technical blockers, dependencies, implementation concerns. Verify referenced files and APIs actually exist in the codebase."
   subagent_type: "plan-reviewer:reviewer"
 
 Task 4 - Code Smells Review:
-  prompt: "You are a Code Quality Specialist. Read the plan at {plan_path}. Review for CODE SMELL issues only: does the planned design introduce code smells? Are there adjacent codebase features that should be refactored as part of this work? Do not assume any prior context."
+  prompt: "You are a Code Quality Specialist. Read the plan at {plan_path}. Review for CODE SMELL issues only: does the planned design introduce code smells? Are there adjacent codebase features that should be refactored as part of this work?"
   subagent_type: "plan-reviewer:reviewer"
 
 Task 5 - Testing Strategy Review:
-  prompt: "You are a QA Architect. Read the plan at {plan_path}. Review for TESTING STRATEGY only: does a testing plan exist? Is it adequate? What test types are needed? Do not assume any prior context."
+  prompt: "You are a QA Architect. Read the plan at {plan_path}. Review for TESTING STRATEGY only: does a testing plan exist? Is it adequate? What test types are needed?"
   subagent_type: "plan-reviewer:reviewer"
 
 Task 6 - Production Strategy Review:
-  prompt: "You are a DevOps Lead. Read the plan at {plan_path}. Review for PRODUCTION STRATEGY only: deployment steps, rollback plan, monitoring, feature flags. Do not assume any prior context."
+  prompt: "You are a DevOps Lead. Read the plan at {plan_path}. Review for PRODUCTION STRATEGY only: deployment steps, rollback plan, monitoring, feature flags."
   subagent_type: "plan-reviewer:reviewer"
 
 Task 7 - Security Review:
-  prompt: "You are a Security Engineer. Read the plan at {plan_path}. Review for SECURITY issues only: potential vulnerabilities, auth concerns, data exposure risks, input validation. Do not assume any prior context."
+  prompt: "You are a Security Engineer. Read the plan at {plan_path}. Review for SECURITY issues only: potential vulnerabilities, auth concerns, data exposure risks, input validation."
   subagent_type: "plan-reviewer:reviewer"
 
 Task 8 - API/Integration Review:
-  prompt: "You are an Integration Architect. Read the plan at {plan_path}. Review for API and INTEGRATION issues only: external dependencies, API contracts, database schema accuracy. Use MCP tools if available to verify database tables. Do not assume any prior context."
+  prompt: "You are an Integration Architect. Read the plan at {plan_path}. Review for API and INTEGRATION issues only: external dependencies, API contracts, database schema accuracy. Use MCP tools if available to verify database tables."
   subagent_type: "plan-reviewer:reviewer"
 ```
 

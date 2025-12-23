@@ -1,14 +1,27 @@
 # plan-reviewer
 
-Iterative plan review plugin for Claude Code with fresh context between iterations.
+Iterative plan review plugin for Claude Code with parallel subagent analysis and fresh context between iterations.
 
 ## Features
 
-- Comprehensive plan review against codebase reality
-- Spawns Explore sub-agents to verify file references and APIs
-- **Interactive Q&A**: Asks questions with recommended options, modifies plan based on your answers
-- **Addresses Testing & Production**: Asks about testing plan and production strategy if missing
-- Loops until 3 consecutive clean passes (ensuring thorough review)
+- **8 parallel reviewers**: Spawns 8 specialized subagents to review different aspects simultaneously
+- **Fresh context each iteration**: Each review cycle uses fresh agents with no prior context
+- **Interactive Q&A**: Synthesizes findings into questions with recommended options
+- **Automatic plan modification**: Spawns modifier agent to apply your decisions
+- **3 clean passes**: Continues until 3 consecutive iterations find no issues
+
+## Review Aspects
+
+Each iteration spawns 8 specialized reviewers:
+
+1. **Design** - Architecture choices, tradeoffs, alternatives
+2. **Completeness** - Missing steps, edge cases, error handling
+3. **Feasibility** - Technical blockers, dependencies, implementation concerns
+4. **Code Smells** - Design issues in plan or adjacent codebase
+5. **Testing** - Test strategy adequacy
+6. **Production** - Deployment, rollback, monitoring plans
+7. **Security** - Vulnerabilities, auth issues, data exposure
+8. **Integration** - API contracts, external dependencies, database schemas
 
 ## Installation
 
@@ -29,16 +42,33 @@ Iterative plan review plugin for Claude Code with fresh context between iteratio
 
 ## How It Works
 
-1. **Fresh Context Loop**: Each iteration spawns a new agent via the Task tool, giving completely fresh context. The plan file persists on disk, so each agent reviews the updated plan with fresh eyes.
-
-2. **Codebase Verification**: Explore sub-agents verify that files, APIs, and schemas referenced in your plan actually exist and match your assumptions.
-
-3. **Interactive Q&A with Recommendations**: After identifying issues, the agent asks you questions with multiple options. One option is always marked as "(Recommended)" to guide your decision. Your answers are then incorporated directly into the plan file.
-
-4. **Addresses Testing & Production**: If the plan is missing these sections, asks if they're needed (user can say N/A).
-
-5. **3 Clean Passes**: The review continues until 3 consecutive iterations find no issues, ensuring thorough verification from multiple fresh perspectives.
+```
+/plan-review
+    ↓
+Spawn 8 reviewer agents in parallel
+    ↓
+Collect and synthesize all findings
+    ↓
+Ask user questions (with Recommended options)
+    ↓
+Spawn modifier agent to update plan
+    ↓
+Check: issues found?
+    ├─ Yes → next iteration (fresh 8 agents, reset clean_passes)
+    └─ No → increment clean_passes
+             ├─ < 3 → next iteration
+             └─ = 3 → done!
+```
 
 ## MCP Integration
 
-If you have Supabase MCP configured, the agent can verify database schemas and tables referenced in your plans.
+If you have Supabase MCP configured, the Integration reviewer can verify database schemas and tables referenced in your plans.
+
+## Architecture
+
+The command orchestrates everything in the main Claude session:
+- Main session spawns subagents (subagents can't spawn other subagents)
+- 8 Explore agents run in parallel for comprehensive review
+- Findings synthesized and presented to user
+- general-purpose agent applies modifications
+- Loop continues with fresh context each iteration

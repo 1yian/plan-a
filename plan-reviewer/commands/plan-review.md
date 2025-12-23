@@ -7,11 +7,13 @@ argument-hint: [plan-file-path]
 
 You are orchestrating an iterative plan review process. Follow these steps precisely.
 
-## Step 1: Resolve Plan Path
+## Step 1: Resolve Plan Path and Create Working Copy
 
-1. If `$1` is provided, use that as the plan path
+1. If `$1` is provided, use that as the original plan path
 2. Otherwise, use Glob to find `.claude/plans/*.md` and use the first result (most recently modified)
 3. If no plans exist, inform the user and stop
+4. **Create a working copy**: Copy the original plan to `{original_name}.review.md` (e.g., `my-feature.md` → `my-feature.review.md`)
+5. All modifications will be made to the working copy, preserving the original
 
 ## Step 2: Run Review Iteration
 
@@ -101,9 +103,12 @@ Task - Validate Reviews:
 
 After the validation agent returns:
 1. For each validated question, mark the first option as "(Recommended)" in the label
-2. Use AskUserQuestion tool to ask all validated questions at once
+2. Include the question's `context` field in the question text so the user understands what part of the plan is being discussed
+3. Use AskUserQuestion tool to ask all validated questions at once
 
 For each option's description, be descriptive: explain tradeoffs, benefits, and implications of choosing that option.
+
+**The user has NOT read the plan recently.** Each question must be self-contained with enough context to understand what's being asked and why it matters.
 
 If no validated questions, skip to Step 6 (Track Progress).
 
@@ -111,8 +116,10 @@ If no validated questions, skip to Step 6 (Track Progress).
 
 After user answers, spawn a plan-modifier agent with a **self-contained prompt**.
 
+**Note**: Use the working copy path (`*.review.md`), not the original.
+
 **CRITICAL - Context Isolation**: The modifier prompt must contain ONLY:
-1. The plan file path
+1. The working copy path
 2. The specific modifications to make (derived from user answers)
 
 Do NOT include conversation history, previous iterations, or why the user made these choices.

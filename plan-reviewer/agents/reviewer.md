@@ -35,8 +35,9 @@ Return valid JSON only:
   "issues": ["issue 1", "issue 2"],
   "questions": [
     {
-      "question": "Full question text?",
+      "question": "Full question text with context?",
       "header": "Short",
+      "context": "Brief explanation of what part of the plan this relates to and why it matters",
       "options": [
         {"label": "Option A", "description": "Why option A"},
         {"label": "Option B", "description": "Why option B"}
@@ -45,6 +46,14 @@ Return valid JSON only:
   ]
 }
 ```
+
+**IMPORTANT - Question Context**: The user has NOT memorized the plan. Each question MUST include enough context so the user understands:
+- What part of the plan this relates to
+- Why this decision matters
+- What the current approach in the plan is (if any)
+
+Bad: "Should we use Redis or Memcached?"
+Good: "The plan proposes adding a caching layer for API responses but doesn't specify the technology. Should we use Redis or Memcached?"
 
 If no issues found:
 ```json

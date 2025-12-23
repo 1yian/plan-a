@@ -12,7 +12,7 @@ description: |
   </commentary>
   </example>
 
-model: sonnet
+model: inherit
 thinking_budget: extended
 color: cyan
 ---

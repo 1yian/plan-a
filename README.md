@@ -67,7 +67,7 @@ If you have Supabase MCP configured, the Integration reviewer can verify databas
 The command orchestrates everything in the main Claude session:
 - Main session spawns subagents (subagents can't spawn other subagents)
 - 6 instances of `reviewer` agent run in parallel, each with a different persona prompt
-- Reviewer agent uses `model: sonnet` with `thinking_budget: extended` for deep analysis
+- Reviewer agent uses `model: inherit` with `thinking_budget: extended` for deep analysis
 - Findings synthesized and presented to user
 - general-purpose agent applies modifications
 - Loop continues with fresh context each iteration

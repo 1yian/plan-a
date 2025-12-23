@@ -19,43 +19,50 @@ Use Read tool to read the plan file. Understand its structure and content.
 
 ## Step 3: Run Review Iteration
 
-For each iteration, spawn 8 reviewer subagents **in parallel** using the Task tool. Each focuses on a different aspect:
+For each iteration, spawn 8 reviewer subagents **in parallel** using the Task tool.
+
+**CRITICAL - Context Isolation**: Each prompt must be completely self-contained. Do NOT include any information about previous iterations, prior findings, what was fixed, or conversation history. The subagent must review the plan with zero prior assumptions.
+
+Use these exact prompt templates (only substitute `{plan_path}` with the actual path):
 
 ```
 Task 1 - Design Review:
-  prompt: "Review the plan at {plan_path} for DESIGN issues only. Check architecture choices, tradeoffs, alternatives not considered. Return JSON: {aspect: 'design', issues: [...], questions: [{question: string, header: string (max 12 chars), options: [{label: string, description: string}]}]}"
+  prompt: "You are a Senior Architect. Read the plan at {plan_path}. Review for DESIGN issues only: architecture choices, tradeoffs, alternatives not considered. Do not assume any prior context. Output JSON: {aspect: 'design', issues: ['issue1', ...], questions: [{question: 'text', header: 'Label', options: [{label: 'Option A', description: 'why'}]}]} or {aspect: 'design', issues: [], questions: []} if none."
   subagent_type: "Explore"
 
 Task 2 - Completeness Review:
-  prompt: "Review the plan at {plan_path} for COMPLETENESS issues only. Check for missing steps, edge cases, error handling gaps. Return JSON: {aspect: 'completeness', issues: [...], questions: [...]}"
+  prompt: "You are a Technical Lead. Read the plan at {plan_path}. Review for COMPLETENESS issues only: missing steps, edge cases, error handling gaps. Do not assume any prior context. Output JSON: {aspect: 'completeness', issues: [...], questions: [...]} or empty arrays if none."
   subagent_type: "Explore"
 
 Task 3 - Feasibility Review:
-  prompt: "Review the plan at {plan_path} for FEASIBILITY issues only. Check technical blockers, dependencies, implementation concerns. Verify referenced files/APIs exist. Return JSON: {aspect: 'feasibility', issues: [...], questions: [...]}"
+  prompt: "You are a Staff Engineer. Read the plan at {plan_path}. Review for FEASIBILITY issues only: technical blockers, dependencies, implementation concerns. Verify referenced files and APIs actually exist in the codebase. Do not assume any prior context. Output JSON: {aspect: 'feasibility', issues: [...], questions: [...]} or empty arrays if none."
   subagent_type: "Explore"
 
 Task 4 - Code Smells Review:
-  prompt: "Review the plan at {plan_path} for CODE SMELLS. Check if the planned design introduces code smells, or if adjacent codebase features should be addressed. Return JSON: {aspect: 'code_smells', issues: [...], questions: [...]}"
+  prompt: "You are a Code Quality Specialist. Read the plan at {plan_path}. Review for CODE SMELL issues only: does the planned design introduce code smells? Are there adjacent codebase features that should be refactored as part of this work? Do not assume any prior context. Output JSON: {aspect: 'code_smells', issues: [...], questions: [...]} or empty arrays if none."
   subagent_type: "Explore"
 
 Task 5 - Testing Strategy Review:
-  prompt: "Review the plan at {plan_path} for TESTING STRATEGY. Check if testing plan exists and is adequate. If missing, suggest what should be included. Return JSON: {aspect: 'testing', issues: [...], questions: [...]}"
+  prompt: "You are a QA Architect. Read the plan at {plan_path}. Review for TESTING STRATEGY only: does a testing plan exist? Is it adequate? What test types are needed? Do not assume any prior context. Output JSON: {aspect: 'testing', issues: [...], questions: [...]} or empty arrays if none."
   subagent_type: "Explore"
 
 Task 6 - Production Strategy Review:
-  prompt: "Review the plan at {plan_path} for PRODUCTION STRATEGY. Check deployment, rollback, monitoring plans. If missing, suggest what should be included. Return JSON: {aspect: 'production', issues: [...], questions: [...]}"
+  prompt: "You are a DevOps Lead. Read the plan at {plan_path}. Review for PRODUCTION STRATEGY only: deployment steps, rollback plan, monitoring, feature flags. Do not assume any prior context. Output JSON: {aspect: 'production', issues: [...], questions: [...]} or empty arrays if none."
   subagent_type: "Explore"
 
 Task 7 - Security Review:
-  prompt: "Review the plan at {plan_path} for SECURITY concerns. Check for potential vulnerabilities, auth issues, data exposure risks. Return JSON: {aspect: 'security', issues: [...], questions: [...]}"
+  prompt: "You are a Security Engineer. Read the plan at {plan_path}. Review for SECURITY issues only: potential vulnerabilities, auth concerns, data exposure risks, input validation. Do not assume any prior context. Output JSON: {aspect: 'security', issues: [...], questions: [...]} or empty arrays if none."
   subagent_type: "Explore"
 
 Task 8 - API/Integration Review:
-  prompt: "Review the plan at {plan_path} for API and INTEGRATION concerns. Verify external dependencies, API contracts, database schema references. Use MCP tools if available to check database. Return JSON: {aspect: 'integration', issues: [...], questions: [...]}"
+  prompt: "You are an Integration Architect. Read the plan at {plan_path}. Review for API and INTEGRATION issues only: external dependencies, API contracts, database schema accuracy. Use MCP tools if available to verify database tables. Do not assume any prior context. Output JSON: {aspect: 'integration', issues: [...], questions: [...]} or empty arrays if none."
   subagent_type: "Explore"
 ```
 
-**IMPORTANT**: Launch all 8 Task calls in a single message to run them in parallel.
+**IMPORTANT**:
+- Launch all 8 Task calls in a single message to run them in parallel
+- Never add context like "the user just fixed X" or "we previously found Y"
+- Each subagent sees ONLY the plan file, nothing else
 
 ## Step 4: Synthesize Findings
 
@@ -89,12 +96,31 @@ If no issues/questions found, skip to Step 7.
 
 ## Step 6: Modify the Plan
 
-After user answers, spawn a plan-modifier agent:
+After user answers, spawn a plan-modifier agent with a **self-contained prompt**.
+
+**CRITICAL - Context Isolation**: The modifier prompt must contain ONLY:
+1. The plan file path
+2. The specific modifications to make (derived from user answers)
+
+Do NOT include conversation history, previous iterations, or why the user made these choices.
 
 ```
 Task:
-  prompt: "Modify the plan at {plan_path} based on these user decisions: {user_answers}. Use Edit tool to update the plan directly. Keep the plan as the current best version (not a changelog). Return JSON: {modifications_made: [...], success: bool}"
+  prompt: "You are a Technical Writer. Read the plan at {plan_path}. Apply these modifications:
+    1. [Specific change from user answer 1]
+    2. [Specific change from user answer 2]
+    ...
+  Use Edit tool to update the plan. Keep it as the current best version (not a changelog). Do not assume any prior context. Output JSON: {modifications_made: ['mod1', ...], success: true}"
   subagent_type: "general-purpose"
+```
+
+Example good prompt:
+```
+"You are a Technical Writer. Read the plan at .claude/plans/feature.md. Apply these modifications:
+  1. Add Testing section with unit tests and integration tests
+  2. Change database approach from raw SQL to Supabase migrations
+  3. Add rollback plan to Production Strategy section
+Use Edit tool to update the plan. Keep it as the current best version. Do not assume any prior context. Output JSON: {modifications_made: [...], success: true}"
 ```
 
 ## Step 7: Track Progress

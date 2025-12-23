@@ -12,7 +12,7 @@ description: |
   </commentary>
   </example>
 
-model: opus
+model: sonnet
 thinking_budget: extended
 color: cyan
 ---

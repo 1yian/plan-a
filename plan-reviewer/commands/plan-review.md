@@ -17,7 +17,7 @@ You are orchestrating an iterative plan review process. Follow these steps preci
 
 For each iteration, spawn 6 reviewer subagents **in parallel** using the Task tool.
 
-All 6 use the same agent (`plan-reviewer:reviewer`) with different persona prompts. This agent has `model: opus` and `thinking_budget: extended` for deep analysis.
+All 6 use the same agent (`plan-reviewer:reviewer`) with different persona prompts. This agent has `model: sonnet` and `thinking_budget: extended` for deep analysis.
 
 **CRITICAL - Context Isolation**: Each prompt must be completely self-contained. Do NOT include any information about previous iterations, prior findings, what was fixed, or conversation history. The subagent must review the plan with zero prior assumptions.
 

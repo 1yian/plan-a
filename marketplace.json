@@ -1,0 +1,5 @@
+{
+  "name": "1yian",
+  "description": "Yian's Claude Code plugins",
+  "plugins": ["plan-reviewer"]
+}

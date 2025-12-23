@@ -1,0 +1,8 @@
+{
+  "name": "plan-reviewer",
+  "version": "1.0.0",
+  "description": "Iterative plan review with fresh context between iterations",
+  "author": {
+    "name": "Yian"
+  }
+}

@@ -13,11 +13,7 @@ You are orchestrating an iterative plan review process. Follow these steps preci
 2. Otherwise, use Glob to find `.claude/plans/*.md` and use the first result (most recently modified)
 3. If no plans exist, inform the user and stop
 
-## Step 2: Read the Plan
-
-Use Read tool to read the plan file. Understand its structure and content.
-
-## Step 3: Run Review Iteration
+## Step 2: Run Review Iteration
 
 For each iteration, spawn 6 reviewer subagents **in parallel** using the Task tool.
 
@@ -81,7 +77,7 @@ Task 6 - Integration Review:
 - Each subagent sees ONLY the plan file, nothing else
 - The reviewer agent handles JSON output format internally
 
-## Step 4: Validate Findings
+## Step 3: Validate Findings
 
 After all 6 agents return, spawn a validation agent to review their combined output:
 
@@ -101,7 +97,7 @@ Task - Validate Reviews:
   subagent_type: "plan-reviewer:reviewer"
 ```
 
-## Step 5: Ask User Questions
+## Step 4: Ask User Questions
 
 After the validation agent returns:
 1. For each validated question, mark the first option as "(Recommended)" in the label
@@ -109,9 +105,9 @@ After the validation agent returns:
 
 For each option's description, be descriptive: explain tradeoffs, benefits, and implications of choosing that option.
 
-If no validated questions, skip to Step 7.
+If no validated questions, skip to Step 6 (Track Progress).
 
-## Step 6: Modify the Plan
+## Step 5: Modify the Plan
 
 After user answers, spawn a plan-modifier agent with a **self-contained prompt**.
 
@@ -140,7 +136,7 @@ Example good prompt:
 Use Edit tool to update the plan. Keep it as the current best version. Do not assume any prior context. Output JSON: {modifications_made: [...], success: true}"
 ```
 
-## Step 7: Track Progress
+## Step 6: Track Progress
 
 Maintain these counters (in your working memory):
 - `iteration`: Current iteration number (starts at 1)
@@ -150,13 +146,13 @@ After each iteration:
 - If issues were found: reset `clean_passes = 0`
 - If no issues found: increment `clean_passes += 1`
 
-## Step 8: Continue or Complete
+## Step 7: Continue or Complete
 
 ```
 IF clean_passes < 2:
   - Report: "Iteration {iteration} complete. Clean passes: {clean_passes}/2. Starting next iteration..."
   - Increment iteration
-  - Go back to Step 3 (spawn fresh 6 agents)
+  - Go back to Step 2 (spawn fresh 6 agents)
 
 ELSE (clean_passes == 2):
   - Report: "Plan review complete! 2 consecutive clean passes achieved."

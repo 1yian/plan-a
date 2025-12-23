@@ -19,65 +19,75 @@ Use Read tool to read the plan file. Understand its structure and content.
 
 ## Step 3: Run Review Iteration
 
-For each iteration, spawn 8 reviewer subagents **in parallel** using the Task tool.
+For each iteration, spawn 6 reviewer subagents **in parallel** using the Task tool.
 
-All 8 use the same agent (`plan-reviewer:reviewer`) with different persona prompts. This agent has `model: opus` and `thinking_budget: extended` for deep analysis.
+All 6 use the same agent (`plan-reviewer:reviewer`) with different persona prompts. This agent has `model: opus` and `thinking_budget: extended` for deep analysis.
 
 **CRITICAL - Context Isolation**: Each prompt must be completely self-contained. Do NOT include any information about previous iterations, prior findings, what was fixed, or conversation history. The subagent must review the plan with zero prior assumptions.
 
 Use these exact prompt templates (only substitute `{plan_path}` with the actual path):
 
 ```
-Task 1 - Design Review:
-  prompt: "You are a Senior Architect. Read the plan at {plan_path}. Review for DESIGN issues only: architecture choices, tradeoffs, alternatives not considered."
+Task 1 - Architecture Review (The Architect):
+  prompt: "You are a Principal Architect. Read the plan at {plan_path}. Review for STRUCTURAL INTEGRITY only.
+  - Are the chosen design patterns appropriate?
+  - Is the solution over-engineered or under-engineered?
+  - Are we introducing technical debt or tight coupling?
+  - Could this be simplified using existing abstractions?"
   subagent_type: "plan-reviewer:reviewer"
 
-Task 2 - Completeness Review:
-  prompt: "You are a Technical Lead. Read the plan at {plan_path}. Review for COMPLETENESS issues only: missing steps, edge cases, error handling gaps."
+Task 2 - Feasibility Review (The Pragmatist):
+  prompt: "You are a Staff Engineer. Read the plan at {plan_path}. Review for EXECUTION REALITY only.
+  - Verify if referenced files, classes, and methods actually exist.
+  - Are the proposed libraries compatible with the current stack?
+  - Is the implementation complexity underestimated?
+  - Identify any 'magical thinking' where steps are glossed over."
   subagent_type: "plan-reviewer:reviewer"
 
-Task 3 - Feasibility Review:
-  prompt: "You are a Staff Engineer. Read the plan at {plan_path}. Review for FEASIBILITY issues only: technical blockers, dependencies, implementation concerns. Verify referenced files and APIs actually exist in the codebase."
+Task 3 - Logic & Gap Review (The Skeptic):
+  prompt: "You are a Lead QA Engineer. Read the plan at {plan_path}. Review for LOGIC GAPS only.
+  - Play 'Devil's Advocate': How can I break this workflow?
+  - What happens if inputs are null, empty, or malformed?
+  - Are there missing steps in the user journey?
+  - Do not focus on code style; focus on broken logic."
   subagent_type: "plan-reviewer:reviewer"
 
-Task 4 - Code Smells Review:
-  prompt: "You are a Code Quality Specialist. Read the plan at {plan_path}. Review for CODE SMELL issues only: does the planned design introduce code smells? Are there adjacent codebase features that should be refactored as part of this work?"
+Task 4 - Security Review (The Gatekeeper):
+  prompt: "You are a Security Engineer. Read the plan at {plan_path}. Review for RISK only.
+  - Identify IDOR, Injection, or XSS risks.
+  - Critique how secrets and configuration are handled.
+  - Review authorization checks (is user permission verified at every step?)."
   subagent_type: "plan-reviewer:reviewer"
 
-Task 5 - Testing Strategy Review:
-  prompt: "You are a QA Architect. Read the plan at {plan_path}. Review for TESTING STRATEGY only: does a testing plan exist? Is it adequate? What test types are needed?"
+Task 5 - Operations Review (The Operator):
+  prompt: "You are a Site Reliability Engineer (SRE). Read the plan at {plan_path}. Review for MAINTAINABILITY only.
+  - How will we debug this in production? (Logs, Metrics).
+  - Is there a rollout and rollback strategy?
+  - Are feature flags used correctly?
+  - What is the performance impact on the database?"
   subagent_type: "plan-reviewer:reviewer"
 
-Task 6 - Production Strategy Review:
-  prompt: "You are a DevOps Lead. Read the plan at {plan_path}. Review for PRODUCTION STRATEGY only: deployment steps, rollback plan, monitoring, feature flags."
-  subagent_type: "plan-reviewer:reviewer"
-
-Task 7 - Security Review:
-  prompt: "You are a Security Engineer. Read the plan at {plan_path}. Review for SECURITY issues only: potential vulnerabilities, auth concerns, data exposure risks, input validation."
-  subagent_type: "plan-reviewer:reviewer"
-
-Task 8 - API/Integration Review:
-  prompt: "You are an Integration Architect. Read the plan at {plan_path}. Review for API and INTEGRATION issues only: external dependencies, API contracts, database schema accuracy. Use MCP tools if available to verify database tables."
-  subagent_type: "plan-reviewer:reviewer"
-
-Task 9 - Abstraction Review:
-  prompt: "You are a Principal Engineer. Read the plan at {plan_path}. Evaluate what the plan is trying to achieve. Could any custom implementation be replaced with existing libraries or frameworks? Are there more sophisticated abstractions that would simplify the solution?"
+Task 6 - Integration Review (The Diplomat):
+  prompt: "You are an Integration Architect. Read the plan at {plan_path}. Review for SYSTEM BOUNDARIES only.
+  - Check API contract changes (breaking vs non-breaking).
+  - Review database schema changes for backward compatibility.
+  - Verify third-party API usage limits or constraints."
   subagent_type: "plan-reviewer:reviewer"
 ```
 
 **IMPORTANT**:
-- Launch all 9 Task calls in a single message to run them in parallel
+- Launch all 6 Task calls in a single message to run them in parallel
 - Never add context like "the user just fixed X" or "we previously found Y"
 - Each subagent sees ONLY the plan file, nothing else
 - The reviewer agent handles JSON output format internally
 
 ## Step 4: Validate Findings
 
-After all 9 agents return, spawn a validation agent to review their combined output:
+After all 6 agents return, spawn a validation agent to review their combined output:
 
 ```
 Task - Validate Reviews:
-  prompt: "Here are the findings from 9 plan reviewers:
+  prompt: "Here are the findings from 6 plan reviewers:
 
   {all_reviewer_outputs_as_json}
 
@@ -146,7 +156,7 @@ After each iteration:
 IF clean_passes < 3:
   - Report: "Iteration {iteration} complete. Clean passes: {clean_passes}/3. Starting next iteration..."
   - Increment iteration
-  - Go back to Step 3 (spawn fresh 9 agents)
+  - Go back to Step 3 (spawn fresh 6 agents)
 
 ELSE (clean_passes == 3):
   - Report: "Plan review complete! 3 consecutive clean passes achieved."
@@ -161,15 +171,12 @@ For each iteration, report:
 ## Iteration {N}
 
 ### Reviewer Findings
-- Design: {summary}
-- Completeness: {summary}
-- Feasibility: {summary}
-- Code Smells: {summary}
-- Testing: {summary}
-- Production: {summary}
-- Security: {summary}
-- Integration: {summary}
-- Abstraction: {summary}
+- Architecture (The Architect): {summary}
+- Feasibility (The Pragmatist): {summary}
+- Logic & Gaps (The Skeptic): {summary}
+- Security (The Gatekeeper): {summary}
+- Operations (The Operator): {summary}
+- Integration (The Diplomat): {summary}
 
 ### Validated Questions
 [After validation agent filters the findings]

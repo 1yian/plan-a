@@ -4,7 +4,7 @@ Iterative plan review plugin for Claude Code with parallel subagent analysis and
 
 ## Features
 
-- **9 parallel reviewers**: Spawns 9 specialized subagents to review different aspects simultaneously
+- **6 parallel reviewers**: Spawns 6 specialized subagents to review different aspects simultaneously
 - **Fresh context each iteration**: Each review cycle uses fresh agents with no prior context
 - **Interactive Q&A**: Synthesizes findings into questions with recommended options
 - **Automatic plan modification**: Spawns modifier agent to apply your decisions
@@ -12,17 +12,14 @@ Iterative plan review plugin for Claude Code with parallel subagent analysis and
 
 ## Review Aspects
 
-Each iteration spawns 9 specialized reviewers:
+Each iteration spawns 6 specialized reviewers:
 
-1. **Design** - Architecture choices, tradeoffs, alternatives
-2. **Completeness** - Missing steps, edge cases, error handling
-3. **Feasibility** - Technical blockers, dependencies, implementation concerns
-4. **Code Smells** - Design issues in plan or adjacent codebase
-5. **Testing** - Test strategy adequacy
-6. **Production** - Deployment, rollback, monitoring plans
-7. **Security** - Vulnerabilities, auth issues, data exposure
-8. **Integration** - API contracts, external dependencies, database schemas
-9. **Abstraction** - Could existing libraries or frameworks simplify the solution?
+1. **The Architect** - Structural integrity, design patterns, over/under-engineering, abstractions
+2. **The Pragmatist** - Execution reality, file verification, library compatibility, magical thinking
+3. **The Skeptic** - Logic gaps, edge cases, broken workflows, devil's advocate
+4. **The Gatekeeper** - Security risks, IDOR/injection/XSS, secrets handling, authorization
+5. **The Operator** - Maintainability, debugging, rollout/rollback, feature flags, performance
+6. **The Diplomat** - System boundaries, API contracts, schema compatibility, third-party limits
 
 ## Installation
 
@@ -46,7 +43,7 @@ Each iteration spawns 9 specialized reviewers:
 ```
 /plan-review
     ↓
-Spawn 9 reviewer agents in parallel
+Spawn 6 reviewer agents in parallel
     ↓
 Spawn validation agent to filter findings
     ↓
@@ -55,7 +52,7 @@ Ask user validated questions (with Recommended options)
 Spawn modifier agent to update plan
     ↓
 Check: issues found?
-    ├─ Yes → next iteration (fresh 9 agents, reset clean_passes)
+    ├─ Yes → next iteration (fresh 6 agents, reset clean_passes)
     └─ No → increment clean_passes
              ├─ < 3 → next iteration
              └─ = 3 → done!
@@ -69,7 +66,7 @@ If you have Supabase MCP configured, the Integration reviewer can verify databas
 
 The command orchestrates everything in the main Claude session:
 - Main session spawns subagents (subagents can't spawn other subagents)
-- 9 instances of `reviewer` agent run in parallel, each with a different persona prompt
+- 6 instances of `reviewer` agent run in parallel, each with a different persona prompt
 - Reviewer agent uses `model: opus` with `thinking_budget: extended` for deep analysis
 - Findings synthesized and presented to user
 - general-purpose agent applies modifications

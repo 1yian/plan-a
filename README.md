@@ -48,9 +48,9 @@ Each iteration spawns 9 specialized reviewers:
     ↓
 Spawn 9 reviewer agents in parallel
     ↓
-Collect and synthesize all findings
+Spawn validation agent to filter findings
     ↓
-Ask user questions (with Recommended options)
+Ask user validated questions (with Recommended options)
     ↓
 Spawn modifier agent to update plan
     ↓

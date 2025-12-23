@@ -71,20 +71,35 @@ Task 9 - Abstraction Review:
 - Each subagent sees ONLY the plan file, nothing else
 - The reviewer agent handles JSON output format internally
 
-## Step 4: Synthesize Findings
+## Step 4: Validate Findings
 
-After all 8 agents return:
-1. Collect all issues and questions from each agent
-2. Deduplicate similar questions
-3. For each question, mark the first option as "(Recommended)" in the label
+After all 9 agents return, spawn a validation agent to review their combined output:
+
+```
+Task - Validate Reviews:
+  prompt: "Here are the findings from 9 plan reviewers:
+
+  {all_reviewer_outputs_as_json}
+
+  Read the plan at {plan_path}. For each issue and question raised, determine if it is valid and actionable. Filter out:
+  - False positives
+  - Nitpicks that don't matter
+  - Issues already addressed in the plan
+  - Redundant questions asking the same thing
+
+  Output only the validated questions that deserve user attention."
+  subagent_type: "plan-reviewer:reviewer"
+```
 
 ## Step 5: Ask User Questions
 
-Use AskUserQuestion tool to ask all synthesized questions at once.
+After the validation agent returns:
+1. For each validated question, mark the first option as "(Recommended)" in the label
+2. Use AskUserQuestion tool to ask all validated questions at once
 
 For each option's description, be descriptive: explain tradeoffs, benefits, and implications of choosing that option.
 
-If no issues/questions found, skip to Step 7.
+If no validated questions, skip to Step 7.
 
 ## Step 6: Modify the Plan
 
@@ -131,7 +146,7 @@ After each iteration:
 IF clean_passes < 3:
   - Report: "Iteration {iteration} complete. Clean passes: {clean_passes}/3. Starting next iteration..."
   - Increment iteration
-  - Go back to Step 3 (spawn fresh 8 agents)
+  - Go back to Step 3 (spawn fresh 9 agents)
 
 ELSE (clean_passes == 3):
   - Report: "Plan review complete! 3 consecutive clean passes achieved."
@@ -154,6 +169,10 @@ For each iteration, report:
 - Production: {summary}
 - Security: {summary}
 - Integration: {summary}
+- Abstraction: {summary}
+
+### Validated Questions
+[After validation agent filters the findings]
 
 ### Questions for User
 [AskUserQuestion called here]

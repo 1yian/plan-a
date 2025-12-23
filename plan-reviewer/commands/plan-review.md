@@ -12,7 +12,7 @@ You are orchestrating an iterative plan review process. Follow these steps preci
 1. If `$1` is provided, use that as the original plan path
 2. Otherwise, use Glob to find `.claude/plans/*.md` and use the first result (most recently modified)
 3. If no plans exist, inform the user and stop
-4. **Create a working copy**: Copy the original plan to `{original_name}.review.md` (e.g., `my-feature.md` → `my-feature.review.md`)
+4. **Create a working copy in cwd**: Copy the original plan to `./{original_name}.review.md` in the current working directory (e.g., `.claude/plans/my-feature.md` → `./my-feature.review.md`)
 5. All modifications will be made to the working copy, preserving the original
 
 ## Step 2: Run Review Iteration

@@ -8,7 +8,7 @@ Iterative plan review plugin for Claude Code with parallel subagent analysis and
 - **Fresh context each iteration**: Each review cycle uses fresh agents with no prior context
 - **Interactive Q&A**: Synthesizes findings into questions with recommended options
 - **Automatic plan modification**: Spawns modifier agent to apply your decisions
-- **3 clean passes**: Continues until 3 consecutive iterations find no issues
+- **2 clean passes**: Continues until 2 consecutive iterations find no issues
 
 ## Review Aspects
 

@@ -153,13 +153,13 @@ After each iteration:
 ## Step 8: Continue or Complete
 
 ```
-IF clean_passes < 3:
-  - Report: "Iteration {iteration} complete. Clean passes: {clean_passes}/3. Starting next iteration..."
+IF clean_passes < 2:
+  - Report: "Iteration {iteration} complete. Clean passes: {clean_passes}/2. Starting next iteration..."
   - Increment iteration
   - Go back to Step 3 (spawn fresh 6 agents)
 
-ELSE (clean_passes == 3):
-  - Report: "Plan review complete! 3 consecutive clean passes achieved."
+ELSE (clean_passes == 2):
+  - Report: "Plan review complete! 2 consecutive clean passes achieved."
   - Stop
 ```
 
@@ -189,6 +189,6 @@ For each iteration, report:
 
 ### Status
 - Issues found: {count}
-- Clean passes: {clean_passes}/3
+- Clean passes: {clean_passes}/2
 - Next: {continuing/complete}
 ```

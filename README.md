@@ -68,7 +68,17 @@ If you have Supabase MCP configured, the Integration reviewer can verify databas
 
 The command orchestrates everything in the main Claude session:
 - Main session spawns subagents (subagents can't spawn other subagents)
-- 8 Explore agents run in parallel for comprehensive review
+- 8 instances of `reviewer` agent run in parallel, each with a different persona prompt
+- Reviewer agent uses `model: opus` with `thinking_budget: extended` for deep analysis
 - Findings synthesized and presented to user
 - general-purpose agent applies modifications
 - Loop continues with fresh context each iteration
+
+## Context Isolation
+
+Each reviewer subagent receives a completely self-contained prompt with:
+- Specific persona (Senior Architect, Security Engineer, etc.)
+- Plan file path only
+- "Do not assume any prior context" instruction
+
+No conversation history, previous findings, or iteration context leaks into subagents.

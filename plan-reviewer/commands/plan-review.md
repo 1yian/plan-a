@@ -21,48 +21,51 @@ Use Read tool to read the plan file. Understand its structure and content.
 
 For each iteration, spawn 8 reviewer subagents **in parallel** using the Task tool.
 
+All 8 use the same agent (`plan-reviewer:reviewer`) with different persona prompts. This agent has `model: opus` and `thinking_budget: extended` for deep analysis.
+
 **CRITICAL - Context Isolation**: Each prompt must be completely self-contained. Do NOT include any information about previous iterations, prior findings, what was fixed, or conversation history. The subagent must review the plan with zero prior assumptions.
 
 Use these exact prompt templates (only substitute `{plan_path}` with the actual path):
 
 ```
 Task 1 - Design Review:
-  prompt: "You are a Senior Architect. Read the plan at {plan_path}. Review for DESIGN issues only: architecture choices, tradeoffs, alternatives not considered. Do not assume any prior context. Output JSON: {aspect: 'design', issues: ['issue1', ...], questions: [{question: 'text', header: 'Label', options: [{label: 'Option A', description: 'why'}]}]} or {aspect: 'design', issues: [], questions: []} if none."
-  subagent_type: "Explore"
+  prompt: "You are a Senior Architect. Read the plan at {plan_path}. Review for DESIGN issues only: architecture choices, tradeoffs, alternatives not considered. Do not assume any prior context."
+  subagent_type: "plan-reviewer:reviewer"
 
 Task 2 - Completeness Review:
-  prompt: "You are a Technical Lead. Read the plan at {plan_path}. Review for COMPLETENESS issues only: missing steps, edge cases, error handling gaps. Do not assume any prior context. Output JSON: {aspect: 'completeness', issues: [...], questions: [...]} or empty arrays if none."
-  subagent_type: "Explore"
+  prompt: "You are a Technical Lead. Read the plan at {plan_path}. Review for COMPLETENESS issues only: missing steps, edge cases, error handling gaps. Do not assume any prior context."
+  subagent_type: "plan-reviewer:reviewer"
 
 Task 3 - Feasibility Review:
-  prompt: "You are a Staff Engineer. Read the plan at {plan_path}. Review for FEASIBILITY issues only: technical blockers, dependencies, implementation concerns. Verify referenced files and APIs actually exist in the codebase. Do not assume any prior context. Output JSON: {aspect: 'feasibility', issues: [...], questions: [...]} or empty arrays if none."
-  subagent_type: "Explore"
+  prompt: "You are a Staff Engineer. Read the plan at {plan_path}. Review for FEASIBILITY issues only: technical blockers, dependencies, implementation concerns. Verify referenced files and APIs actually exist in the codebase. Do not assume any prior context."
+  subagent_type: "plan-reviewer:reviewer"
 
 Task 4 - Code Smells Review:
-  prompt: "You are a Code Quality Specialist. Read the plan at {plan_path}. Review for CODE SMELL issues only: does the planned design introduce code smells? Are there adjacent codebase features that should be refactored as part of this work? Do not assume any prior context. Output JSON: {aspect: 'code_smells', issues: [...], questions: [...]} or empty arrays if none."
-  subagent_type: "Explore"
+  prompt: "You are a Code Quality Specialist. Read the plan at {plan_path}. Review for CODE SMELL issues only: does the planned design introduce code smells? Are there adjacent codebase features that should be refactored as part of this work? Do not assume any prior context."
+  subagent_type: "plan-reviewer:reviewer"
 
 Task 5 - Testing Strategy Review:
-  prompt: "You are a QA Architect. Read the plan at {plan_path}. Review for TESTING STRATEGY only: does a testing plan exist? Is it adequate? What test types are needed? Do not assume any prior context. Output JSON: {aspect: 'testing', issues: [...], questions: [...]} or empty arrays if none."
-  subagent_type: "Explore"
+  prompt: "You are a QA Architect. Read the plan at {plan_path}. Review for TESTING STRATEGY only: does a testing plan exist? Is it adequate? What test types are needed? Do not assume any prior context."
+  subagent_type: "plan-reviewer:reviewer"
 
 Task 6 - Production Strategy Review:
-  prompt: "You are a DevOps Lead. Read the plan at {plan_path}. Review for PRODUCTION STRATEGY only: deployment steps, rollback plan, monitoring, feature flags. Do not assume any prior context. Output JSON: {aspect: 'production', issues: [...], questions: [...]} or empty arrays if none."
-  subagent_type: "Explore"
+  prompt: "You are a DevOps Lead. Read the plan at {plan_path}. Review for PRODUCTION STRATEGY only: deployment steps, rollback plan, monitoring, feature flags. Do not assume any prior context."
+  subagent_type: "plan-reviewer:reviewer"
 
 Task 7 - Security Review:
-  prompt: "You are a Security Engineer. Read the plan at {plan_path}. Review for SECURITY issues only: potential vulnerabilities, auth concerns, data exposure risks, input validation. Do not assume any prior context. Output JSON: {aspect: 'security', issues: [...], questions: [...]} or empty arrays if none."
-  subagent_type: "Explore"
+  prompt: "You are a Security Engineer. Read the plan at {plan_path}. Review for SECURITY issues only: potential vulnerabilities, auth concerns, data exposure risks, input validation. Do not assume any prior context."
+  subagent_type: "plan-reviewer:reviewer"
 
 Task 8 - API/Integration Review:
-  prompt: "You are an Integration Architect. Read the plan at {plan_path}. Review for API and INTEGRATION issues only: external dependencies, API contracts, database schema accuracy. Use MCP tools if available to verify database tables. Do not assume any prior context. Output JSON: {aspect: 'integration', issues: [...], questions: [...]} or empty arrays if none."
-  subagent_type: "Explore"
+  prompt: "You are an Integration Architect. Read the plan at {plan_path}. Review for API and INTEGRATION issues only: external dependencies, API contracts, database schema accuracy. Use MCP tools if available to verify database tables. Do not assume any prior context."
+  subagent_type: "plan-reviewer:reviewer"
 ```
 
 **IMPORTANT**:
 - Launch all 8 Task calls in a single message to run them in parallel
 - Never add context like "the user just fixed X" or "we previously found Y"
 - Each subagent sees ONLY the plan file, nothing else
+- The reviewer agent handles JSON output format internally
 
 ## Step 4: Synthesize Findings
 

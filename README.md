@@ -14,12 +14,12 @@ Iterative plan review plugin for Claude Code with parallel subagent analysis and
 
 Each iteration spawns 6 specialized reviewers:
 
-1. **The Architect** - Structural integrity, design patterns, over/under-engineering, abstractions
-2. **The Pragmatist** - Execution reality, file verification, library compatibility, magical thinking
-3. **The Skeptic** - Logic gaps, edge cases, broken workflows, devil's advocate
-4. **The Gatekeeper** - Security risks, IDOR/injection/XSS, secrets handling, authorization
-5. **The Operator** - Maintainability, debugging, rollout/rollback, feature flags, performance
-6. **The Diplomat** - System boundaries, API contracts, schema compatibility, third-party limits
+1. **Architecture** - Structural integrity, design patterns, over/under-engineering, abstractions
+2. **Feasibility** - Execution reality, file verification, library compatibility, magical thinking
+3. **Logic & Gaps** - Edge cases, broken workflows, devil's advocate
+4. **Security** - IDOR/injection/XSS, secrets handling, authorization
+5. **Operations** - Maintainability, debugging, rollout/rollback, feature flags, performance
+6. **Integration** - System boundaries, API contracts, schema compatibility, third-party limits
 
 ## Installation
 

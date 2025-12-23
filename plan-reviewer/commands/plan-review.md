@@ -28,7 +28,7 @@ All 6 use the same agent (`plan-reviewer:reviewer`) with different persona promp
 Use these exact prompt templates (only substitute `{plan_path}` with the actual path):
 
 ```
-Task 1 - Architecture Review (The Architect):
+Task 1 - Architecture Review:
   prompt: "You are a Principal Architect. Read the plan at {plan_path}. Review for STRUCTURAL INTEGRITY only.
   - Are the chosen design patterns appropriate?
   - Is the solution over-engineered or under-engineered?
@@ -36,7 +36,7 @@ Task 1 - Architecture Review (The Architect):
   - Could this be simplified using existing abstractions?"
   subagent_type: "plan-reviewer:reviewer"
 
-Task 2 - Feasibility Review (The Pragmatist):
+Task 2 - Feasibility Review:
   prompt: "You are a Staff Engineer. Read the plan at {plan_path}. Review for EXECUTION REALITY only.
   - Verify if referenced files, classes, and methods actually exist.
   - Are the proposed libraries compatible with the current stack?
@@ -44,7 +44,7 @@ Task 2 - Feasibility Review (The Pragmatist):
   - Identify any 'magical thinking' where steps are glossed over."
   subagent_type: "plan-reviewer:reviewer"
 
-Task 3 - Logic & Gap Review (The Skeptic):
+Task 3 - Logic & Gap Review:
   prompt: "You are a Lead QA Engineer. Read the plan at {plan_path}. Review for LOGIC GAPS only.
   - Play 'Devil's Advocate': How can I break this workflow?
   - What happens if inputs are null, empty, or malformed?
@@ -52,14 +52,14 @@ Task 3 - Logic & Gap Review (The Skeptic):
   - Do not focus on code style; focus on broken logic."
   subagent_type: "plan-reviewer:reviewer"
 
-Task 4 - Security Review (The Gatekeeper):
+Task 4 - Security Review:
   prompt: "You are a Security Engineer. Read the plan at {plan_path}. Review for RISK only.
   - Identify IDOR, Injection, or XSS risks.
   - Critique how secrets and configuration are handled.
   - Review authorization checks (is user permission verified at every step?)."
   subagent_type: "plan-reviewer:reviewer"
 
-Task 5 - Operations Review (The Operator):
+Task 5 - Operations Review:
   prompt: "You are a Site Reliability Engineer (SRE). Read the plan at {plan_path}. Review for MAINTAINABILITY only.
   - How will we debug this in production? (Logs, Metrics).
   - Is there a rollout and rollback strategy?
@@ -67,7 +67,7 @@ Task 5 - Operations Review (The Operator):
   - What is the performance impact on the database?"
   subagent_type: "plan-reviewer:reviewer"
 
-Task 6 - Integration Review (The Diplomat):
+Task 6 - Integration Review:
   prompt: "You are an Integration Architect. Read the plan at {plan_path}. Review for SYSTEM BOUNDARIES only.
   - Check API contract changes (breaking vs non-breaking).
   - Review database schema changes for backward compatibility.
@@ -171,12 +171,12 @@ For each iteration, report:
 ## Iteration {N}
 
 ### Reviewer Findings
-- Architecture (The Architect): {summary}
-- Feasibility (The Pragmatist): {summary}
-- Logic & Gaps (The Skeptic): {summary}
-- Security (The Gatekeeper): {summary}
-- Operations (The Operator): {summary}
-- Integration (The Diplomat): {summary}
+- Architecture: {summary}
+- Feasibility: {summary}
+- Logic & Gaps: {summary}
+- Security: {summary}
+- Operations: {summary}
+- Integration: {summary}
 
 ### Validated Questions
 [After validation agent filters the findings]

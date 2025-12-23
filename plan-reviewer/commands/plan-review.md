@@ -72,28 +72,13 @@ Task 8 - API/Integration Review:
 After all 8 agents return:
 1. Collect all issues and questions from each agent
 2. Deduplicate similar questions
-3. Group related questions (max 4 per AskUserQuestion call)
-4. For each question, mark the first option as "(Recommended)" in the label
+3. For each question, mark the first option as "(Recommended)" in the label
 
 ## Step 5: Ask User Questions
 
-Use AskUserQuestion tool to ask the synthesized questions. Format:
+Use AskUserQuestion tool to ask all synthesized questions at once.
 
-```json
-{
-  "questions": [
-    {
-      "question": "The full question text?",
-      "header": "ShortLabel",
-      "options": [
-        {"label": "Option A (Recommended)", "description": "Why this is recommended"},
-        {"label": "Option B", "description": "Alternative approach"}
-      ],
-      "multiSelect": false
-    }
-  ]
-}
-```
+For each option's description, be descriptive: explain tradeoffs, benefits, and implications of choosing that option.
 
 If no issues/questions found, skip to Step 7.
 

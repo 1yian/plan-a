@@ -59,10 +59,14 @@ Task 7 - Security Review:
 Task 8 - API/Integration Review:
   prompt: "You are an Integration Architect. Read the plan at {plan_path}. Review for API and INTEGRATION issues only: external dependencies, API contracts, database schema accuracy. Use MCP tools if available to verify database tables."
   subagent_type: "plan-reviewer:reviewer"
+
+Task 9 - Abstraction Review:
+  prompt: "You are a Principal Engineer. Read the plan at {plan_path}. Evaluate what the plan is trying to achieve. Could any custom implementation be replaced with existing libraries or frameworks? Are there more sophisticated abstractions that would simplify the solution?"
+  subagent_type: "plan-reviewer:reviewer"
 ```
 
 **IMPORTANT**:
-- Launch all 8 Task calls in a single message to run them in parallel
+- Launch all 9 Task calls in a single message to run them in parallel
 - Never add context like "the user just fixed X" or "we previously found Y"
 - Each subagent sees ONLY the plan file, nothing else
 - The reviewer agent handles JSON output format internally

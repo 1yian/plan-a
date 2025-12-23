@@ -4,7 +4,7 @@ Iterative plan review plugin for Claude Code with parallel subagent analysis and
 
 ## Features
 
-- **8 parallel reviewers**: Spawns 8 specialized subagents to review different aspects simultaneously
+- **9 parallel reviewers**: Spawns 9 specialized subagents to review different aspects simultaneously
 - **Fresh context each iteration**: Each review cycle uses fresh agents with no prior context
 - **Interactive Q&A**: Synthesizes findings into questions with recommended options
 - **Automatic plan modification**: Spawns modifier agent to apply your decisions
@@ -12,7 +12,7 @@ Iterative plan review plugin for Claude Code with parallel subagent analysis and
 
 ## Review Aspects
 
-Each iteration spawns 8 specialized reviewers:
+Each iteration spawns 9 specialized reviewers:
 
 1. **Design** - Architecture choices, tradeoffs, alternatives
 2. **Completeness** - Missing steps, edge cases, error handling
@@ -22,6 +22,7 @@ Each iteration spawns 8 specialized reviewers:
 6. **Production** - Deployment, rollback, monitoring plans
 7. **Security** - Vulnerabilities, auth issues, data exposure
 8. **Integration** - API contracts, external dependencies, database schemas
+9. **Abstraction** - Could existing libraries or frameworks simplify the solution?
 
 ## Installation
 
@@ -45,7 +46,7 @@ Each iteration spawns 8 specialized reviewers:
 ```
 /plan-review
     ↓
-Spawn 8 reviewer agents in parallel
+Spawn 9 reviewer agents in parallel
     ↓
 Collect and synthesize all findings
     ↓
@@ -54,7 +55,7 @@ Ask user questions (with Recommended options)
 Spawn modifier agent to update plan
     ↓
 Check: issues found?
-    ├─ Yes → next iteration (fresh 8 agents, reset clean_passes)
+    ├─ Yes → next iteration (fresh 9 agents, reset clean_passes)
     └─ No → increment clean_passes
              ├─ < 3 → next iteration
              └─ = 3 → done!
@@ -68,7 +69,7 @@ If you have Supabase MCP configured, the Integration reviewer can verify databas
 
 The command orchestrates everything in the main Claude session:
 - Main session spawns subagents (subagents can't spawn other subagents)
-- 8 instances of `reviewer` agent run in parallel, each with a different persona prompt
+- 9 instances of `reviewer` agent run in parallel, each with a different persona prompt
 - Reviewer agent uses `model: opus` with `thinking_budget: extended` for deep analysis
 - Findings synthesized and presented to user
 - general-purpose agent applies modifications

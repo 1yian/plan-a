@@ -1,0 +1,30 @@
+{
+  "name": "@1yian/apa",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "1.0.0",
+  "description": "ALWAYS PLAN AHEAD!",
+  "bin": {
+    "apa": "./bin/apa.js"
+  },
+  "files": [
+    "bin",
+    "dot-apa",
+    "dot-claude"
+  ],
+  "keywords": [
+    "claude",
+    "claude-code",
+    "planning",
+    "multi-agent"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1yian/apa"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

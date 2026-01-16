@@ -6,7 +6,9 @@ Memory duties are assigned to the *Manager Agent* - who maintains the system. De
 ## 1  Memory System Overview
 The Dynamic-MD Memory System organizes memory with the following structure:
 
-- **Storage layout:** Folder `.apa/memory/` + `memory-root.md` + sub-folders `phase-XX-slug/` in the `.apa/` directory
+Note: the git branch is `feat/[branch]`
+
+- **Storage layout:** Folder `apa/memory/[branch]` + `memory-root.md` + sub-folders `phase-XX-slug/` in the `apa/` directory
 - **Log format:** One `task-XX-slug.md` Memory Log per task
 - **Summarization:** After each phase completes, an inline subsection is appended to the `memory-root.md` file summarizing the phase
 
@@ -15,7 +17,7 @@ The Dynamic-MD Memory System organizes memory with the following structure:
 ## 2  Manager Agent Responsibilities
 Main responsibilities of the Manager Agent when maintaining the Memory System during an APA session:
 
-1. **Memory Root Header Initialization (First Session Only)**: Before starting the first phase execution, fill in the header of `.apa/memory/memory-root.md`. The file is pre-created by the `apa` CLI tool using `apa init`, with a header template containing placeholders. Replace all placeholders with actual values before proceeding to phase execution.
+1. **Memory Root Header Initialization (First Session Only)**: Before starting the first phase execution, fill in the header of `apa/memory/memory-root.md`. The file is pre-created by the `apa` CLI tool using `apa init`, with a header template containing placeholders. Replace all placeholders with actual values before proceeding to phase execution.
 
 2. Keep the Memory System structure (folders/logs) in sync with the current Implementation Plan. Update as Phases or Tasks change.
 
@@ -24,7 +26,7 @@ Main responsibilities of the Manager Agent when maintaining the Memory System du
 ### Phase and Task Management
 **Note**: The Memory Root header must be filled before the first phase execution begins (see responsibility #1 above).
 
-1. On phase entry, create `.apa/memory/phase-XX-slug/` if missing. For each task in the phase, create a **completely empty** Memory Log, following .apa/guides/memory-log-guide.md:
+1. On phase entry, create `apa/memory/phase-XX-slug/` if missing. For each task in the phase, create a **completely empty** Memory Log, following .apa/guides/memory-log-guide.md:
     - `task-Y-Z-slug.md`
 
 **All Memory Logs for the current phase must be created BEFORE the first Task Assignment Prompt for each task.**
@@ -35,7 +37,7 @@ Main responsibilities of the Manager Agent when maintaining the Memory System du
    - If the log contains `important_findings: true` or `compatibility_issues: true`, you **MUST** inspect the referenced output files/artifacts to validate the findings before making a decision.
    
 
-3. At phase end, append a summary to `.apa/memory/memory-root.md`:
+3. At phase end, append a summary to `apa/memory/memory-root.md`:
     ```markdown
     ## Phase XX – <Phase Name> Summary 
     * Outcome summary (≤ 200 words)

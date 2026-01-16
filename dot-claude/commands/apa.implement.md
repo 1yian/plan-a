@@ -57,7 +57,7 @@ Task tool parameters:
 ```
 
 ### 2.2 Task Prompt Construction
-Construct each subagent prompt with task assignment details following .apa/guides/task-assignment-guide.md format.
+Construct each subagent prompt with task assignment details following `.apa/guides/task-assignment-guide.md` format.
 
 **Before constructing the prompt:**
 1. Create empty Memory Log file at `apa/[branch]/memory/task-X-Y.md` if it doesn't exist
@@ -69,7 +69,7 @@ Include in each task prompt:
 - Task Objective, Detailed Instructions, and Expected Output from the Implementation Plan
 - Memory logging instruction pointing to `.apa/guides/memory-log-guide.md`
 - Context from Dependencies section (if applicable)
-- **Constitution reminder**: "Review `.apa/constitution.md` before implementation to ensure compliance with project principles"
+- **Constitution reminder**: "Review `apa/constitution.md` before implementation to ensure compliance with project principles"
 
 ### 2.3 Dependency Context Provision
 When spawning tasks with dependencies (`Depends on: Task X.Y`):

@@ -124,6 +124,7 @@ For each task, analyze:
 
 ### Implementation Plan Location
 Write the completed Implementation Plan to:
+
 ```
 apa/[branch]/implementation-plan.md
 ```

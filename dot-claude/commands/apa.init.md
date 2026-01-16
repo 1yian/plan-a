@@ -25,6 +25,7 @@ Execute the following verification:
 4. If verification passes, extract the branch name by stripping the `feat/` prefix
    - Example: `feat/user-auth` → branch name is `user-auth`
 
+Otherwise, offer to help set up the branch to the user.
 Store the extracted branch name for use in subsequent steps.
 
 ---
@@ -35,13 +36,18 @@ Create the branch-specific APA workspace:
 
 1. Create the branch directory with Memory subdirectory:
    ```bash
-   mkdir -p apa/[branch]/Memory
+   mkdir -p apa/[branch]/memory
    ```
    Replace `[branch]` with the extracted branch name from Step 1.
 
+1a. Copy the Memory Root Template:
+   ```bash
+   cp .apa/memory/memory-root-template.md apa/[branch]/memory-root.md
+   ```
+
 2. Copy the Implementation Plan template:
    ```bash
-   cp dot-apa/implementation-plan.md apa/[branch]/implementation-plan.md
+   cp .apa/implementation-plan-template.md apa/[branch]/implementation-plan.md
    ```
 
 3. Confirm directory structure is created successfully.
@@ -78,18 +84,18 @@ Check if `.apa/constitution.md` exists.
 
 **If constitution does NOT exist:**
 1. Inform user: "No project constitution found. Let's create one to establish project principles and standards."
-2. Read the constitution template from `.apa/constitution.md` (the template version in the apa directory)
-3. Guide user through filling in the template sections:
+2. Read the constitution template from `.apa/constitution.md`
+3. Guide user through filling in the template sections through Q&A:
    - Project name and description
    - Core principles (minimum 2-3)
    - Quality standards
    - Technical constraints
    - Implementation guidelines
-4. Create `.apa/constitution.md` with the populated content
+4. Create `apa/constitution.md` with the populated content
 5. Set version to `1.0.0` and ratification date to current date
 
 **If constitution EXISTS:**
-1. Inform user: "Existing constitution found at `.apa/constitution.md`."
+1. Inform user: "Existing constitution found at `apa/constitution.md`."
 2. Ask: "Would you like to review and update the constitution for this feature branch? (yes/no)"
 3. If yes: Display current constitution and guide through any updates, increment version appropriately
 4. If no: Proceed to completion

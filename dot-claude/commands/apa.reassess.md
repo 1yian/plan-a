@@ -18,7 +18,7 @@ Execute immediately on invocation:
 git branch --show-current
 ```
 
-Store as `[branch]` for all path references.
+Store as `feat/[branch]` for all path references.
 
 ---
 

@@ -153,12 +153,12 @@ Based on log review, determine appropriate next step:
 - Plan assumptions invalid or any other changes needed → **Update Implementation Plan**
 
 ### 5.3. Decision Criteria
-- **Complete**: All deliverables produced, requirements met, **and outputs comply with `.apa/constitution.md` principles**
+- **Complete**: All deliverables produced, requirements met, **and outputs comply with `apa/constitution.md` principles**
 - **Partial**: Some progress made, specific issues identified
 - **Blocked**: Cannot proceed without external input or resolution
 
 ### 5.4. Constitution Compliance
-All task outputs must comply with `.apa/constitution.md` principles. When reviewing task completion, verify that implementation decisions align with project constraints and principles defined in the constitution.
+All task outputs must comply with `apa/constitution.md` principles. When reviewing task completion, verify that implementation decisions align with project constraints and principles defined in the constitution.
 
 ## 6. Ad-Hoc Delegation Protocol
 Set `ad_hoc_delegation: true` only when Implementation Plan contains explicit delegation steps for the task.

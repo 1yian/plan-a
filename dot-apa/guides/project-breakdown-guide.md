@@ -98,10 +98,10 @@ Present the full phase sequence with supporting rationale:
 Present **in chat** phase sequence analysis before beginning phase cycles (see §3). This establishes project structure foundation for systematic task breakdown.
 
 ### 2.3. Implementation Plan Header Initialization
-**MANDATORY**: Before proceeding to phase cycles (see §3), you **MUST** fill in the header of the `.apa/implementation-plan.md` file created by the `apa` CLI tool using `apa init`.
+**MANDATORY**: Before proceeding to phase cycles (see §3), you **MUST** fill in the header of the `apa/[branch]/implementation-plan.md` file created by the `apa` CLI tool using `apa init`.
 
 The file already contains a header template with placeholders. You must:
-1. **Read the existing header** in `.apa/implementation-plan.md`
+1. **Read the existing header** in `apa/[branch]/implementation-plan.md`
 2. **Fill in all header fields**:
    - Replace `<Project Name>` with the actual project name
    - Replace `[To be filled by Setup Agent before Project Breakdown]` in **Last Modification** field with: "Plan creation by the Setup Agent."
@@ -234,7 +234,7 @@ Present **in chat** high-level plan statistics:
 
 #### Next Step Routing:
 Once the plan is approved:
-1. **If User requests Systematic Review:** Proceed to read .apa/guides/project-breakdown-review-guide.md`.
+1. **If User requests Systematic Review:** Proceed to read `.apa/guides/project-breakdown-review-guide.md`.
 2. **If User skips Review:** Proceed directly to **Manager Bootstrap Creation**.
   - **CRITICAL:** You must generate the Bootstrap Prompt using the **EXACT TEMPLATE** defined in your initiation prompt .claude/commands/apa.init.md.
   - **Context Recovery:** If you cannot retrieve the template word-for-word from your context, you must **READ** the .claude/commands/apa.init.md file to refresh your memory before generating the prompt. Do not approximate the template.

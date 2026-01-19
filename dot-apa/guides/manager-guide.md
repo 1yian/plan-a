@@ -191,22 +191,55 @@ Trigger synthesis when:
    - Are upcoming tasks based on assumptions that have been invalidated?
 4. **Make strategic decision**:
    - **Continue**: Plan remains valid, proceed with execution
-   - **Adapt**: Minor adjustments needed (e.g., update task guidance)
-   - **Reassess**: Major plan revision needed (trigger Reassessment Protocol)
+   - **Tactical Reassessment**: Minor adjustments needed → Handle autonomously (Level 1)
+   - **Strategic Reassessment**: Major plan revision needed → Trigger user-invoked reassessment (Level 2)
 
 ---
 
 ## Reassessment Protocol
 
-### When to Trigger Reassessment
+### Reassessment Levels
 
-Trigger reassessment when:
+There are two levels of reassessment based on the scope of changes needed:
+
+#### Level 1: Tactical Reassessment (Autonomous)
+
+**You can handle autonomously** when:
+- Minor adjustments to task guidance or instructions
+- Clarifying ambiguities discovered during execution
+- Adjusting task dependencies based on actual outputs
+- Adding small tasks within the current phase scope
+- Reordering tasks within a phase
+
+**Process**:
+1. Make the adjustment directly to `apa/[branch]/implementation-plan.md`
+2. Document the change in the plan's modification log
+3. Note the adjustment in your execution tracking
+4. Continue execution with the updated plan
+
+**Example**: "Task 2.3 revealed that the data is in JSON format, not CSV. Updating Task 2.4's instructions to parse JSON instead."
+
+#### Level 2: Strategic Reassessment (User-Invoked)
+
+**Requires user involvement** when:
+- Core assumptions in the plan are invalidated
+- Multiple phases need restructuring
+- New phases need to be added
+- Significant scope changes
+- Approach fundamentally changes based on discoveries
+- Trade-offs require user decision
+
+**Process**: Follow the full reassessment protocol below.
+
+### When to Trigger Strategic Reassessment
+
+Trigger strategic reassessment when:
 - Execution discoveries invalidate core assumptions in the plan
 - Multiple tasks in a phase reveal that the next phase approach is infeasible
 - A task uncovers new requirements or constraints that weren't known during planning
 - The user explicitly requests reassessment
 
-### How to Trigger Reassessment
+### How to Trigger Strategic Reassessment (Level 2)
 
 1. **Pause execution** of tasks that depend on the invalidated assumptions
 2. **Continue execution** of independent tasks (don't block everything)

@@ -5,29 +5,29 @@ on:
     branches:
       - main
 
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
-  id-token: write
-
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          persist-credentials: false
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "lts/*"
+          registry-url: "https://registry.npmjs.org"
 
-      - name: Install dependencies
+      - name: Upgrade npm for OIDC support
+        run: npm i -g npm@^11.5.1
+
+      - name: Install semantic-release
         run: npm install semantic-release @semantic-release/npm@latest @semantic-release/git @semantic-release/changelog --no-save
 
       - name: Release

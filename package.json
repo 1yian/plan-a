@@ -22,7 +22,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/1yian/apa"
+    "url": "https://github.com/1yian/apa.git"
   },
   "engines": {
     "node": ">=14.0.0"

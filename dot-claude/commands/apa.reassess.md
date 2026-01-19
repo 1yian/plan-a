@@ -24,10 +24,23 @@ Store as `feat/[branch]` for all path references.
 
 ## Step 2: Read Current State
 
-### 2.1 Load Implementation Plan
+### 2.1 Read Reassessment Context (if exists)
+Check for `apa/[branch]/reassessment-context.md`. If it exists, read it to understand:
+- What triggered the reassessment
+- Which assumptions were invalidated
+- Which tasks/phases are affected
+- Key findings from execution so far
+
+### 2.2 Load Implementation Plan
 Read `apa/[branch]/implementation-plan.md` and parse all task IDs (format: `Task X.Y`).
 
-### 2.2 Scan Memory Directory
+### 2.3 Read Session Summary (if exists)
+Check for `apa/[branch]/session-summary.md`. If it exists, read it to understand:
+- Execution metrics and performance
+- Common failure patterns
+- Key findings from completed tasks
+
+### 2.4 Scan Memory Directory
 List all files in `apa/[branch]/memory/` matching pattern `task-*.md`.
 
 Each Memory log file indicates a **completed task**—extract the task ID from the filename (e.g., `task-1-2.md` → `Task 1.2`).
@@ -48,22 +61,32 @@ Categorize all tasks from the Implementation Plan:
 
 ---
 
-## Step 4: Display Reassessment Options
+## Step 4: Display Reassessment Context and Options
 
 Present the following to the user:
 
 ```markdown
 ## Plan Reassessment: [branch]
 
+### Reassessment Trigger
+[If reassessment-context.md exists, display the trigger and key findings]
+
+### Current State
 **Immutable (completed):** [list task IDs - CANNOT modify]
 **Mutable (pending):** [list task IDs - CAN modify]
 
-**Options:**
+### Affected Tasks/Phases
+[If reassessment-context.md exists, display which tasks/phases need revision]
+
+### Reassessment Options:
 1. Modify pending task details (objective, instructions, guidance)
 2. Add new tasks to the plan
 3. Reorder pending tasks
 4. Update dependencies between pending tasks
 5. Remove pending tasks from the plan
+6. Add new phases based on execution discoveries
+
+**Based on the execution findings, I recommend:** [Your analysis and recommendation]
 
 What would you like to modify?
 ```

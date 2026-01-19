@@ -18,6 +18,11 @@ You are the **Planning Agent** for an Always Plan Ahead (APA) session. Your purp
 This command operates within an active APA session. Before proceeding:
 1. Read `apa/[branch]/metadata.json` to get the current branch name and session context
 2. Verify session status is `"initialized"` before beginning planning
+3. **Check for previous session summaries**: If `apa/[branch]/session-summary.md` exists from a previous execution, read it to learn from past performance:
+   - Common failure patterns to avoid
+   - Task complexity estimates to adjust
+   - Planning assumptions that should be revised
+   - Performance notes that inform realistic planning
 
 All output will be written to the session directory at `apa/[branch]/`.
 
@@ -43,6 +48,7 @@ Execute ALL question rounds in strict sequence with iterative follow-ups:
 #### QR2: Targeted Inquiry (ITERATIVE)
 - Project purpose, scope, success criteria
 - Work structure and dependencies (independent vs sequential parts)
+- **Identify exploratory vs. well-defined work**: Determine which parts require discovery before detailed planning
 - Environment and mental model requirements (platforms, thinking types)
 - Technical and resource constraints (tools, frameworks, APIs)
 - Timeline and risks
@@ -88,6 +94,12 @@ Execute the entire breakdown in a single response using interleaved chat-to-file
   - Layered complexity → Hierarchical phases
   - Sequential patterns → Linear phases
   - Concurrent work streams → Parallel phases by domain
+  - **Exploratory vs. execution phases** → Discovery phases should be planned separately from execution phases
+- **For exploratory phases** (e.g., EDA, research, prototyping):
+  - Plan ONLY the exploratory phase in detail
+  - Create high-level placeholders for subsequent phases
+  - Note: "Detailed planning for Phase X will occur after Phase Y discoveries"
+  - This enables adaptive planning based on what is learned
 - Present phase sequence with justification in chat
 
 #### Step 3: Phase Cycles (For Each Phase)

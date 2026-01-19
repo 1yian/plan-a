@@ -54,9 +54,15 @@ When `dependency_context: true` appears in task assignment:
 3. **Flag Conflicts**: If task requirements conflict with constitution principles:
    - Set status to `blocked` in Task Report
    - Set `compatibility_issues: true` flag
-   - Document the conflict in Issues Encountered section
-   - Suggest alternative approaches that comply with constitution
-4. **Document Decisions**: When constitution principles influence your implementation decisions, note this in the Memory Log Details section
+   - Document the conflict in Issues Encountered section with:
+     - Specific task requirement that conflicts
+     - Specific constitution principle that conflicts
+     - Why you believe they are incompatible
+   - **DO NOT suggest alternative approaches** - escalation to manager is required
+   - **DO NOT implement workarounds** - the manager will coordinate with the user
+4. **Document Decisions**: When constitution principles influence your implementation decisions (without creating conflicts), note this in the Memory Log Details section
+
+**CRITICAL**: A constitution conflict means the task requirements and project principles are incompatible. This requires user decision, not agent creativity. Your job is to identify and escalate conflicts, not resolve them unilaterally.
 
 **Constitution Review Timing:**
 - **First task**: Read full constitution thoroughly

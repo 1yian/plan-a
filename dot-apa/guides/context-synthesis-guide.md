@@ -89,15 +89,58 @@ During project discovery, the Setup Agent must follow this sequence with **manda
 ### **Iterative Follow-Up Protocol**
 **For Question Rounds 1-3, use this mandatory cycle for each Question Round:**
 
-1. **Initial Question Round Questions**: Ask the primary questions for current Question Round
+1. **Initial Question Round Questions**: Ask ONE question at a time (see One-Question-At-A-Time Format below)
 2. **User Response Analysis**: After each user response, immediately assess:
    - What specific gaps remain in understanding this Question Round's requirements?
    - What ambiguities need clarification for project planning?
    - What follow-up questions would gather the missing information?
 3. **Strategic Follow-Up Decision**: 
-   - **If gaps exist**: Ask targeted follow-up questions addressing specific gaps
+   - **If gaps exist**: Ask the NEXT targeted question addressing specific gaps (one at a time)
    - **If understanding complete**: State completion reasoning and advance to next Question Round
 4. **Repeat cycle**: Continue steps 2-3 until Question Round understanding is complete
+
+### **One-Question-At-A-Time Format**
+**CRITICAL**: Ask EXACTLY ONE question at a time. Never batch multiple questions together.
+
+**For each question:**
+1. **Analyze context** and determine the most suitable answer based on:
+   - Best practices for the project type
+   - Common patterns in similar implementations
+   - Risk reduction (security, performance, maintainability)
+   - Alignment with any explicit project goals
+
+2. **Present your recommended answer** prominently:
+   ```
+   **Question [X]**: <question text>
+   
+   **Recommended**: <your suggested answer>
+   **Reasoning**: <1-2 sentences why this is best practice>
+   
+   [If multiple choice, show options in table]
+   [If short answer, specify format constraint]
+   
+   You can accept the recommendation by saying "yes" or "recommended", 
+   or provide your own answer.
+   ```
+
+3. **After user answers**:
+   - If user says "yes", "recommended", or "suggested", use your recommendation
+   - Otherwise, use their answer
+   - Record answer and move to next question
+   - **Never reveal future questions** in advance
+
+4. **Stop asking when**:
+   - All critical information gathered for current Question Round
+   - User signals completion ("done", "good", "proceed")
+   - Earlier answers resolve remaining ambiguities
+
+**Maximum questions per round**: 5-10 questions (stop early if understanding complete)
+
+**Benefits**:
+- Reduces cognitive load (one decision at a time)
+- Provides expert guidance (AI recommends best practice)
+- Allows early termination (skip questions if context sufficient)
+- Better for brownfield (may not need all questions)
 
 **Question Round Completion Requirement**: Before advancing to next Question Round, must state:
 "Question Round [X] understanding complete. Ready to proceed to Question Round [X+1] because: [specific reasoning about information sufficiency]. No additional follow-ups needed because: [specific gaps that have been filled]."
@@ -105,27 +148,63 @@ During project discovery, the Setup Agent must follow this sequence with **manda
 ### Question Round 1: Existing Material and Vision (ITERATIVE)
 **MANDATORY**: Complete this Question Round fully before proceeding to Question Round 2.
 
-**Initial Questions:**
-1. Ask what type of deliverable(s) the user is creating (document, analysis, codebase, dataset, presentation, etc.).
-2. Ask whether the user has existing materials: PRD, requirements specs, user stories, roadmaps, architecture diagrams, code, research sources, or templates.  
-3. Ask for the user's current plan or vision if not covered by materials.
-4. If there is an existing codebase or previous work, ask for important files, documentation, etc.
+**Initial Questions (ask ONE at a time):**
+
+**Question 1**: What type of deliverable(s) are you creating?
+
+**Recommended**: Based on your initial description, this appears to be a [codebase/document/analysis/etc.]
+**Reasoning**: [Why this classification fits]
+
+You can accept the recommendation by saying "yes" or "recommended", or provide your own answer.
+
+---
+
+**Question 2** (after Question 1 answered): Do you have existing materials for this project?
+
+**Recommended**: [Based on project type, suggest what materials would be most helpful]
+**Reasoning**: [Why these materials would inform planning]
+
+Examples: PRD, requirements specs, user stories, roadmaps, architecture diagrams, code, research sources, templates
+
+You can accept the recommendation, say "none", or list what you have.
+
+---
+
+**Question 3** (if needed): What is your current plan or vision for this project?
+
+**Suggested**: [Based on project type and materials, suggest a typical approach]
+**Reasoning**: [Why this approach is common for this project type]
+
+You can accept the suggestion or describe your own vision.
+
+---
+
+**Question 4** (if applicable): Which files or documentation should I review to understand the existing codebase?
+
+**Suggested**: [Based on project type, suggest typical important files like README, architecture docs, main entry points]
+**Reasoning**: [Why these files provide good overview]
+
+You can accept the suggestion or specify different files.
 
 **Iterative Follow-Up Cycle:**
-After each user response, assess information gaps:
+After each user response, assess information gaps and ask the NEXT most important question (one at a time):
 - **Project Foundation**: Is the project type and scope clear enough to identify work domains?
 - **Existing Context**: Do you understand the existing foundation and what needs to be built?
 - **Vision Clarity**: Are there aspects of their vision that need more detail or critical gaps?
 - **Material Understanding**: If existing materials mentioned, do you understand their structure and relevance?
 
-**Continue with targeted follow-ups addressing specific gaps until Question Round 1 understanding is complete.**
+**Continue with targeted follow-ups (one question at a time) addressing specific gaps until Question Round 1 understanding is complete.**
+
+**Stop asking when**: All critical foundation information gathered OR user signals completion ("done", "proceed", "good")
 
 **Question Round 1 Completion Requirement:** State "Question Round 1 understanding complete. Ready to proceed to Question Round 2 because: [specific reasoning]. No additional follow-ups needed because: [specific foundation/vision/materials understanding achieved]."
 
 ### Question Round 2: Targeted Inquiry (ITERATIVE)
 **MANDATORY**: Complete this Question Round fully before proceeding to Question Round 3.
-**Initial Questions:**
-Select and adapt questions that remain unanswered, drawing from these areas. Use follow-up questions when user responses indicate relevant preferences or requirements.  
+
+**Approach**: Ask ONE question at a time, selecting the most important unanswered question from the areas below. Provide recommended answer for each question based on best practices and context.
+
+**Question Areas** (select most relevant, ask one at a time):  
 
 **Project Purpose and Scope**  
 - What problem does the project solve? What defines success and completion?  
@@ -169,7 +248,7 @@ Select and adapt questions that remain unanswered, drawing from these areas. Use
 - What build systems, tools, or processes are currently used?
 
 **Iterative Follow-Up Cycle:**
-After each user response, assess information gaps:
+After each user response, assess information gaps and ask the NEXT most important question (one at a time):
 - **Work Structure**: Do you understand dependencies, challenging aspects, and intermediate deliverables?
 - **Technical Constraints**: Are tools, frameworks, performance requirements clear?
 - **Environment Requirements**: Do you understand what requires external coordination vs IDE work?
@@ -177,31 +256,51 @@ After each user response, assess information gaps:
 - **Risk Assessment**: Are challenging areas and timeline constraints understood?
 - **Resource Requirements**: Are external dependencies and access needs clear?
 
-**Continue with targeted follow-ups addressing specific gaps until Question Round 2 understanding is complete.**
+**For each question**: Provide recommended answer based on best practices, allow user to accept or override.
+
+**Continue with targeted follow-ups (one question at a time) addressing specific gaps until Question Round 2 understanding is complete.**
+
+**Stop asking when**: All critical work structure/constraints/environment information gathered OR user signals completion
 
 **Question Round 2 Completion Requirement:** State "Question Round 2 understanding complete. Ready to proceed to Question Round 3 because: [specific reasoning]. No additional follow-ups needed because: [specific work structure/constraints/environment understanding achieved]."
 
 ### Question Round 3: Requirements & Process Gathering (ITERATIVE)
 **MANDATORY**: Complete this Question Round fully before proceeding to Question Round 4.
-**Initial Questions:**
-Gather workflow preferences, quality standards, and process requirements:
 
-"To ensure I have complete context for project planning, let me explore any additional requirements and process/implementation preferences:
-- Are there specific workflow patterns, quality standards, or validation approaches you prefer for this type of work?
-- Do you have particular technical constraints, implementation preferences, or tools that should guide the approach?  
-- Are there coordination requirements, review processes, or approval gates that should be built into the work structure?
-- Any consistency standards, documentation requirements, or delivery formats I should incorporate?
-- Do you have examples, templates, or reference materials that illustrate your preferred approach?"
+**Approach**: Ask ONE question at a time about workflow preferences, quality standards, and process requirements. Provide recommended answer based on best practices for each question.
+
+**Question Areas** (select most relevant, ask one at a time):
+
+**Example Question Format**:
+```
+**Question [X]**: Are there specific workflow patterns or quality standards you prefer for this type of work?
+
+**Recommended**: [Based on project type, suggest common best practices]
+**Reasoning**: [Why these practices work well for this project type]
+
+You can accept the recommendation by saying "yes" or "recommended", or describe your own preferences.
+```
+
+**Potential Questions** (ask only most relevant, one at a time):
+- Workflow patterns, quality standards, or validation approaches?
+- Technical constraints, implementation preferences, or tool requirements?
+- Coordination requirements, review processes, or approval gates?
+- Consistency standards, documentation requirements, or delivery formats?
+- Examples, templates, or reference materials to follow?
 
 **Iterative Follow-Up Cycle:**
-After each user response, assess information gaps:
+After each user response, assess information gaps and ask the NEXT most important question (one at a time):
 - **Process Requirements**: Are workflow patterns, quality standards, and validation approaches clear?
 - **Implementation Preferences**: Do you understand technical constraints and tool preferences?
 - **Coordination Needs**: Are review processes, approval gates, and collaboration requirements clear?
 - **Standards Integration**: Are consistency, documentation, and delivery requirements understood?
 - **Reference Context**: If examples mentioned, do you understand their relevance and application?
 
-**Continue with targeted follow-ups addressing specific gaps until Question Round 3 understanding is complete.**
+**For each question**: Provide recommended answer based on best practices, allow user to accept or override.
+
+**Continue with targeted follow-ups (one question at a time) addressing specific gaps until Question Round 3 understanding is complete.**
+
+**Stop asking when**: All critical process/implementation/coordination information gathered OR user signals completion
 
 **Question Round 3 Completion Requirement:** State "Question Round 3 understanding complete. Ready to proceed to Question Round 4 because: [specific reasoning]. No additional follow-ups needed because: [specific process/implementation/coordination understanding achieved]."
 

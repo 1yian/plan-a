@@ -113,7 +113,15 @@ When logging blockers or errors:
 - Include error messages or diagnostic info
 - Suggest potential solutions if possible
 
-### 5.4. Example Quality Comparison
+### 5.4. Test Execution Evidence
+When task involves testing (writing tests, test phases, validation):
+- Include the exact test command executed (e.g., `npm test`, `pytest tests/`)
+- Include test output showing tests ran (pass/fail counts, test names)
+- Include exit code from test execution
+- If tests failed, include relevant failure messages
+- **CRITICAL**: Self-reporting test success without execution evidence is prohibited
+
+### 5.5. Example Quality Comparison
 
 - Poor logging: "I worked on the API endpoint. I made some changes to the file. There were some issues but I fixed them. The endpoint works now."
 

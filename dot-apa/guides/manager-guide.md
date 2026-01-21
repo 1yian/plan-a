@@ -90,15 +90,26 @@ When spawning tasks with dependencies (`Depends on: Task X.Y`):
 - Tasks with NO pending dependencies can run in parallel
 - Issue multiple `Task` tool calls in a single response for independent tasks
 - Track task completion before releasing dependent tasks
+- **CRITICAL**: Check for file-level conflicts before spawning parallel tasks
+
+**File Conflict Detection:**
+Before spawning tasks in parallel, identify which files each task will modify:
+1. Read each task's Detailed Instructions and Expected Output from Implementation Plan
+2. Extract file paths that will be created or modified
+3. Check for overlapping file modifications between ready tasks
+4. If two tasks will modify the same file, serialize them (add dependency)
+5. Only spawn tasks with no file conflicts in parallel
 
 **Execution Flow:**
 1. Identify all tasks with zero pending dependencies
-2. Spawn task agents for all ready tasks IN PARALLEL (single response, multiple Task calls)
-3. Wait for task agent completions
-4. Process each Task Report (see verification protocol below)
-5. Mark completed tasks, update dependency graph
-6. Release newly unblocked tasks
-7. Repeat until all tasks complete or strategic intervention needed
+2. **Detect file conflicts** between ready tasks (see File Conflict Detection above)
+3. **Serialize conflicting tasks** by adding temporary dependencies
+4. Spawn task agents for all ready tasks with no conflicts IN PARALLEL (single response, multiple Task calls)
+5. Wait for task agent completions
+6. Process each Task Report (see verification protocol below)
+7. Mark completed tasks, update dependency graph
+8. Release newly unblocked tasks
+9. Repeat until all tasks complete or strategic intervention needed
 
 ---
 
@@ -131,11 +142,16 @@ The task agent returns a structured Task Report:
    - Does the Summary describe completion of the ORIGINAL task objective?
    - Do the Artifacts Created/Modified align with the Expected Output?
    - Are there any unexplained substitutions or alternative approaches?
-3. **If verification FAILS** (output doesn't match requirements):
+3. **Verify test execution** (if task involves testing):
+   - Does the Memory Log contain evidence of actual test execution?
+   - Is there a test command that was run (e.g., `npm test`, `pytest`)?
+   - Is there test output or exit code captured?
+   - **If NO execution evidence**: Set status to "failed" and retry with: "You must EXECUTE the tests and include the test command, output, and exit code in your memory log. Self-reporting test success without execution is not acceptable."
+4. **If verification FAILS** (output doesn't match requirements or no test execution evidence):
    - Set status to "failed" in your tracking
    - Document the discrepancy
    - Retry the task with explicit instruction: "You must complete the ORIGINAL requirements as specified. Alternative approaches are not acceptable without explicit escalation."
-4. **If verification PASSES**:
+5. **If verification PASSES**:
    - Check Task Report flags (important_findings, compatibility_issues, ad_hoc_delegation)
    - If important_findings or compatibility_issues is true, inspect artifacts (see Strategic Synthesis below)
    - Mark task as complete in dependency graph
@@ -158,9 +174,14 @@ The task agent returns a structured Task Report:
    - Determine if conflict is genuine or if agent is misinterpreting
    - If genuine conflict: Escalate to user with full context (see Escalation Protocol)
    - If misinterpretation: Retry with clarification
-3. **Check for technical blocker**:
-   - If agent claims technical impossibility without exhausting attempts, reject and retry
-   - If agent has made reasonable attempts, apply Strategic Synthesis protocol
+3. **Check for technical blocker** (see Fail-Fast Escalation Guide `.apa/guides/fail-fast-escalation-guide.md`):
+   - **Validate blocker legitimacy**: Verify blocker is genuine (missing deps, environment issues, ambiguous requirements)
+   - **Choose response**:
+     - **Direct Unblocking**: If you can resolve (install deps, clarify requirements, set up environment), do so and resume agent
+     - **Resume Same Agent**: After unblocking, resume agent with updated context and unblocking details
+     - **Reassign Task**: If blocker reveals wrong agent assignment or agent cannot proceed even after unblocking
+     - **Update Plan**: If blocker reveals missing phase, incorrect dependencies, or environmental prerequisites
+   - **Preserve Context**: Ensure agent's work and decision trail are preserved for efficient resume
 4. **Check ad_hoc_delegation flag**:
    - If true: Coordinate delegation as needed
    - Document delegation results
@@ -210,6 +231,8 @@ There are two levels of reassessment based on the scope of changes needed:
 - Adjusting task dependencies based on actual outputs
 - Adding small tasks within the current phase scope
 - Reordering tasks within a phase
+- Discoveries from brownfield exploration that refine understanding
+- Better approaches identified during implementation
 
 **Process**:
 1. Make the adjustment directly to `apa/[branch]/implementation-plan.md`
@@ -218,6 +241,8 @@ There are two levels of reassessment based on the scope of changes needed:
 4. Continue execution with the updated plan
 
 **Example**: "Task 2.3 revealed that the data is in JSON format, not CSV. Updating Task 2.4's instructions to parse JSON instead."
+
+**Philosophy**: Plans are living documents that evolve during implementation. See `.apa/guides/living-plan-philosophy.md` for detailed guidance on continuous plan refinement, discovery-driven planning, and bidirectional feedback.
 
 #### Level 2: Strategic Reassessment (User-Invoked)
 

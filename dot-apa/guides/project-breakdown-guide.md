@@ -17,8 +17,9 @@ Project decomposition transforms Context Synthesis findings into structured task
 - **Quality standards and validation requirements** → Convert to explicit task objectives, acceptance criteria, and validation steps
 - **Implementation preferences and methodologies** → Specify as mandatory task execution approach and procedural requirements  
 - **Process constraints and workflow requirements** → Embed as specific task steps, constraints, and coordination protocols
-- **Coordination and tracking requirements** → Structure as explicit user interaction steps and review checkpoints
+- **Coordination requirements and tracking requirements** → Structure as explicit user interaction steps and review checkpoints
 - **Tool preferences and technical constraints** → Detail in task guidance as mandatory technical specifications
+- **Test requirements and acceptance criteria** → Specify as separate test-writing tasks BEFORE implementation tasks, following test-first pattern
 
 **Integration Verification:** During each phase cycle, audit that emphasized user requirements appear as explicit task components, not background assumptions.
 
@@ -154,8 +155,11 @@ Evaluate the workflow structure:
 - **Single-step criteria**: Cohesive work completable in one exchange, no internal dependencies, no validation points needed
 - **Multi-step criteria**: Internal sequential dependencies, user confirmation needs, ad-hoc delegation needs, progressive validation requirements, complex implementation with natural breakpoints
 - **Edge cases**: External platform coordination = multi-step, research needs = multi-step with ad-hoc delegation, complex technical work with breakpoints = multi-step
+- **Test-first pattern**: When implementing features with acceptance criteria, create separate tasks: (1) Write tests specifying acceptance criteria, (2) Implement feature to satisfy tests, (3) Execute tests to validate implementation
 
 *State your reasoning:* "Task [X.Y] involves [workflow description]. Based on [Context Synthesis insights, workflow factors, validation needs, technical dependencies], this requires [single/multi]-step execution because [specific reasoning]."
+
+*For features with test requirements:* "This feature requires test validation. Creating Task [X.Y] to write tests (acceptance criteria), Task [X.Y+1] to implement (depends on X.Y), and Task [X.Y+2] to execute tests (depends on X.Y+1)."
 
 **Content Specification:**
 Determine appropriate task content:

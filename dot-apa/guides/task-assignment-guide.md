@@ -41,6 +41,7 @@ memory_log_path: "path/to/log/file"
 execution_type: "single-step | multi-step"
 dependency_context: true | false
 ad_hoc_delegation: true | false
+test_execution_required: true | false
 ---
 
 # APA Task Assignment: [Task Title]
@@ -66,6 +67,17 @@ Implementation Plan: **Task X.Y - [Title]**
 - Deliverables: [from Implementation Plan Output field]
 - Success criteria: [clear completion definition]
 - File locations: [specific paths for created/modified files]
+
+## Test Execution Requirements
+[Only include if test_execution_required: true]
+This task requires actual test execution. You MUST:
+1. Install all test dependencies (e.g., `npm install`, `pip install -r requirements.txt`)
+2. Set up test environment (database, config files, environment variables)
+3. Run the test command: `[specific test command]`
+4. Capture the test output and exit code
+5. Include test command, output, and exit code in your memory log
+
+**CRITICAL**: This task cannot be marked `completed` without evidence of test execution. Self-reporting test success without execution evidence will result in task failure.
 
 ## Memory Logging
 Upon completion, you **MUST** log work in: `[memory_log_path]`

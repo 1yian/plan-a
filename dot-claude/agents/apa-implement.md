@@ -44,6 +44,22 @@ When `dependency_context: true` appears in task assignment:
 
 - **Common for**: Consumer tasks using outputs from different agents.
 
+### Test Execution Requirements
+When task involves testing (writing tests, test phases, validation):
+
+- **Pattern**: Test execution is MANDATORY, not optional
+- **Approach**:
+  1. **Setup Phase**: Install dependencies, configure test environment, set up test database
+  2. **Execution Phase**: Run the actual test command (e.g., `npm test`, `pytest`, `cargo test`)
+  3. **Verification Phase**: Capture exit code and test output
+  4. **Reporting Phase**: Include test command, output, and exit code in memory log
+
+- **CRITICAL**: Tasks involving tests CANNOT be marked `completed` without evidence of actual test execution
+- **Evidence Required**: Test command executed, test output captured, exit code verified
+- **Self-Reporting Prohibited**: Claiming "tests pass" without execution evidence results in task failure
+
+- **Common for**: Test implementation tasks, validation phases, quality assurance work
+
 ## 1.5 Constitution Compliance
 
 **MANDATORY**: Before executing any task, read `.apa/constitution.md` to understand project principles and constraints.
@@ -147,6 +163,11 @@ Follow the Memory Log format defined in `.apa/guides/memory-log-guide.md`:
 - Use YAML front-matter with required flags
 - Include Summary, Details, Output, and Issues sections
 - Add optional sections (Compatibility Concerns, Ad-Hoc Agent Delegation, Important Findings) only when their flags are true
+
+**When encountering blockers**, follow the Fail-Fast Escalation Guide (`.apa/guides/fail-fast-escalation-guide.md`):
+- Escalate immediately for missing dependencies, environment issues, or ambiguous requirements
+- Do NOT attempt partial solutions or workarounds
+- Preserve context for manager to unblock and resume
 
 ---
 

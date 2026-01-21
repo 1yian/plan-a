@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/1yian/apa/compare/v1.2.0...v1.3.0) (2026-01-21)
+
+
+### Features
+
+* trigger semantic release ([bd768ca](https://github.com/1yian/apa/commit/bd768cacd696b95e9d754d222f023d6da3ecaf9c))
+
 # [1.2.0](https://github.com/1yian/apa/compare/v1.1.0...v1.2.0) (2026-01-20)
 
 

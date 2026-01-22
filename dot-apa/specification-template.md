@@ -3,7 +3,7 @@
 **APA Session Branch**: `[branch-name]`  
 **Created**: [DATE]  
 **Status**: Draft  
-**Type**: [Greenfield | Brownfield | Mixed]  
+**Type**: [Greenfield | Brownfield | Mixed | Data Science/EDA]  
 **Input**: User description: "$ARGUMENTS"
 
 ---
@@ -14,11 +14,12 @@
   For GREENFIELD: Describe what you want to build and why
   For BROWNFIELD: Describe the existing system and what you want to change
   For MIXED: Describe both the existing foundation and new additions
+  For DATA SCIENCE: Describe the problem statement and the data source
 -->
 
-### Current State *(for brownfield/mixed)*
+### Current State *(for brownfield/mixed/DS)*
 
-[Describe what currently exists - systems, code, architecture, constraints]
+[Describe what currently exists - systems, code, architecture, or **Data Source/Baseline**]
 
 ### Desired State
 
@@ -169,18 +170,19 @@
 
 ---
 
-## Discovery Needs *(optional - for exploratory work)*
+## Discovery Needs *(optional - for exploratory work/EDA)*
 
 <!--
   Use this section when you need to investigate before detailed planning.
-  These become research tasks in the implementation plan.
+  In Data Science, this is the EDA phase.
 -->
 
-### Questions to Answer
+### Questions to Answer (EDA)
 
-1. [What needs to be investigated? e.g., "How does the existing auth system handle token refresh?"]
-2. [What technical decisions need research? e.g., "Which OAuth library best integrates with our stack?"]
-3. [What performance characteristics need measurement? e.g., "Current system latency under load?"]
+1. [e.g., "What is the distribution of the target variable?"]
+2. [e.g., "Are there significant null values in the feature set?"]
+3. [e.g., "Which features have the highest correlation with the target?"]
+4. [e.g., "Is there a baseline model we are trying to beat?"]
 
 ### Investigation Approach
 

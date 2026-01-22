@@ -2,7 +2,7 @@
 This guide defines how Manager Agents issue task assignments to Implementation Agents and evaluate their completion. Task assignments coordinate agent work during the Task Loop of an APA session, following the Implementation Plan.
 
 ## 1. Task Loop Overview
-Manager Agent issues Task Assignment Prompt → User passes to Implementation Agent → Implementation Agent executes task and logs work → User returns log to Manager → Manager reviews and determines next action (continue, follow-up, delegate, or plan update).
+Manager Agent issues Task Assignment Prompt → Manager invokes Implementation Agent via Claude subagent → Implementation Agent executes task and logs work → Manager reviews log and determines next action (continue, follow-up, delegate, or plan update).
 
 ## 2. Task Assignment Prompt Format
 Task Assignment Prompts must correlate 1-1 with Implementation Plan tasks and include all necessary context for successful execution. Manager Agent must issue these prompts following this format:
@@ -86,7 +86,7 @@ Follow .apa/guides/memory-log-guide.md instructions.
 ## Reporting Protocol
 After logging, you **MUST** output a **Final Task Report** code block.
 - **Format:** Use the exact template provided in your .claude/commands/apa.implement-subagent.md instructions.
-- **Perspective:** Write it from the User's perspective so they can copy-paste it back to the Manager.
+- **Content:** Provide a concise summary of task completion status, deliverables, and any blockers or findings for Manager Agent review.
 
 ## Ad-Hoc Delegation
 [Only include if ad_hoc_delegation: true]
@@ -94,7 +94,7 @@ After logging, you **MUST** output a **Final Task Report** code block.
 ```
 
 ### 2.4. Delivery Format  
-Present Task Assignment Prompts as **a single markdown code block with YAML frontmatter at the top.** This ensures smooth copy-paste workflow for users transferring prompts between Manager and Implementation Agents.
+Present Task Assignment Prompts as **a single markdown code block with YAML frontmatter at the top.** This structured format enables the Manager Agent to invoke Implementation Agents via Claude subagents with complete task context.
 
 ## 3. Context Dependency Integration
 When consumer tasks depend on producer outputs ("Depends on: Task X.Y Output" in Implementation Plan Guidance), the Manager MUST provide comprehensive context to enable successful integration.

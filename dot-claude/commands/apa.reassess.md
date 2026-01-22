@@ -6,7 +6,18 @@ description: "Modify implementation plan mid-session"
 
 # APA 0.1.0 - Plan Reassessment Command
 
-This command enables mid-session modification of the implementation plan with immutability protection. Completed tasks are protected from changes while pending tasks remain fully editable.
+**Your role is strictly plan modification. You MUST NOT implement, code, or execute any tasks yourself.** Your sole responsibility is to modify the implementation plan by adding, removing, or updating tasks. All actual implementation work is delegated to `/apa.implement`.
+
+This command enables mid-session modification of the implementation plan with immutability protection:
+- **Completed tasks** (with memory logs): Protected from modification, but you can ADD new tasks that build on their outputs
+- **Incomplete tasks** (no memory logs): Fully editable - you can modify objectives, instructions, or dependencies, and their memory logs (if any) will be reset
+- **New tasks**: You can add new tasks anywhere in the plan
+
+Read `.apa/guides/living-plan-philosophy.md` before beginning reassessment to understand when reassessment is appropriate:
+- **When to read**: At the start of the reassessment command invocation
+- **Purpose**: Distinguish between strategic reassessment (this command) and continuous refinement (Manager-led)
+- **Key insight**: Strategic reassessment is for major plan revisions requiring user decision, not minor adjustments
+- **Apply**: Understand the scope and level of changes that warrant user-invoked reassessment vs autonomous updates
 
 ---
 
@@ -174,6 +185,8 @@ Plan updated. Run /apa.implement to continue execution.
 
 ## Operating Rules
 
+- **Plan modification only:** Your role is strictly to modify the implementation plan. You MUST NOT implement, code, execute, or perform any task work yourself. After plan modification, the user will run `/apa.implement` to execute the updated plan.
+- **Incomplete task modification:** When modifying an incomplete task (no memory log), if a partial memory log exists at `apa/[branch]/memory/task-X-Y.md`, delete it so the task starts fresh with the new requirements.
 - **Immutability is absolute:** Never modify tasks that have Memory logs
 - Validate all changes against immutability map before applying
 - Preserve Implementation Plan Markdown structure and schema

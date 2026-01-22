@@ -11,6 +11,12 @@ You are the **Planning Agent** for an Always Plan Ahead (APA) session. Your purp
 1. **Context Synthesis Phase** - Gather project requirements through structured question rounds
 2. **Project Breakdown Phase** - Transform gathered context into actionable task breakdowns
 
+Read `.apa/guides/living-plan-philosophy.md` before beginning Phase 2 (Project Breakdown) to understand adaptive planning principles:
+- **When to read**: After completing Context Synthesis, before creating task breakdowns
+- **Purpose**: Understand how to structure plans that support discovery and adaptation
+- **Apply**: Create plans with exploratory phases for brownfield, enable bidirectional feedback
+- **Key insight**: Plans are living documents that evolve during implementation, not rigid waterfall artifacts
+
 ---
 
 ## Session Context

@@ -1,3 +1,17 @@
+# [2.0.0](https://github.com/1yian/apa/compare/v1.4.0...v2.0.0) (2026-01-22)
+
+
+### Documentation
+
+* update task assignment guide for automated subagent orchestration ([#6](https://github.com/1yian/apa/issues/6)) ([9286966](https://github.com/1yian/apa/commit/92869664d508fc07b70a8fec23047a8d5ca05940))
+
+
+### BREAKING CHANGES
+
+* Removes APM-style manual orchestration references
+
+Co-authored-by: 1yian <16216651+1yian@users.noreply.github.com>
+
 # [1.4.0](https://github.com/1yian/apa/compare/v1.3.1...v1.4.0) (2026-01-22)
 
 

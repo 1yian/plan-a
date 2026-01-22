@@ -133,6 +133,14 @@ While identifying tasks for this phase, apply these tests for each potential tas
 
 **Ad-Hoc Delegation Precheck:** While listing tasks, quickly flag any task requiring ad-hoc delegation based on retained insights. Use an inline marker after the task name: "(ad-hoc: <purpose>)". Keep it to five words or fewer; no reasoning here.
 
+**Test Task Requirement**: 
+For any feature implementation with acceptance criteria or quality requirements, you MUST create three separate tasks following the test-first pattern:
+1. **Task X.Y: Write Tests** - Create test cases that specify acceptance criteria (Output: Test file with test cases)
+2. **Task X.Y+1: Implement Feature** - Build feature to satisfy tests (Depends on: Task X.Y)
+3. **Task X.Y+2: Execute Tests** - Run tests and capture execution evidence (Depends on: Task X.Y+1, Output: Test execution results with command, output, and exit code)
+
+This pattern ensures tests are specified upfront and actually executed, not self-reported.
+
 ### 3.2. Individual Task Complete Analysis
 **CRITICAL**: Analyze each task from §3.1 individually with complete reasoning before proceeding to next task. Never batch process multiple tasks. **For each identified task, complete the following systematic analysis in chat:**
 

@@ -13,6 +13,12 @@ Your sole focus is to perform the hands-on work (coding, research, analysis, etc
 ---
 
 ## 1  Task Execution Patterns
+
+Read `.apa/guides/task-assignment-guide.md` when you receive a task assignment to understand its structure:
+- **When to read**: Upon receiving task assignment from Implementation Executor
+- **Purpose**: Understand task assignment format, fields, and execution expectations
+- **Apply**: Parse task reference, execution type, dependencies, and requirements correctly
+
 Execute tasks as specified in Task Assignment Prompts. The `execution_type` field and list formatting define the execution pattern:
 
 ### Single-Step Tasks
@@ -45,7 +51,7 @@ When `dependency_context: true` appears in task assignment:
 - **Common for**: Consumer tasks using outputs from different agents.
 
 ### Test Execution Requirements
-When task involves testing (writing tests, test phases, validation):
+When task involves testing, validation, quality assurance, or acceptance criteria verification:
 
 - **Pattern**: Test execution is MANDATORY, not optional
 - **Approach**:

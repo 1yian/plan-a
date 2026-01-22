@@ -18,6 +18,12 @@ On invocation, immediately begin execution. Your main responsibilities:
 3. Execute tasks in parallel when dependencies allow.
 4. Handle errors autonomously without user confirmation gates.
 
+Read `.apa/guides/manager-guide.md` during initialization to understand your coordination and verification duties:
+- Task completion verification protocols (read before processing each task report)
+- Test execution verification requirements (read when processing test tasks)
+- File conflict detection for parallel execution (read before spawning parallel tasks)
+- Blocker handling and escalation procedures (read when encountering blocked tasks)
+
 
 ---
 
@@ -107,8 +113,21 @@ Read the `Status` field from the Task Report: completed | failed | blocked
 1. Proceed to Memory Log verification (Section 3.4)
 2. Check Task Report flags (important_findings, compatibility_issues, ad_hoc_delegation)
 3. If important_findings or compatibility_issues is true, follow Section 3.3 protocol
-4. Mark task as complete in dependency graph
-5. Release dependent tasks for execution
+4. **Verify test execution (if applicable)**:
+   - If the task involves testing, validation, or quality assurance, check for test execution evidence in the Memory Log:
+     - Look for test command execution (e.g., `npm test`, `pytest`, `cargo test`)
+     - Verify test output is captured
+     - Confirm exit code is documented
+   - **Test Task Identification**: A task involves testing if:
+     - Task title contains: "test", "validation", "verify", "QA", "quality assurance"
+     - Task objective mentions: "acceptance criteria", "test cases", "test execution"
+     - Task is explicitly marked as a test phase in the Implementation Plan
+   - **If evidence is MISSING**:
+     - Set task status to `failed` in your tracking
+     - Re-spawn subagent with explicit requirement: "You must EXECUTE the tests and include the test command, output, and exit code in your memory log. Self-reporting test success without execution evidence is not acceptable."
+   - **If evidence is PRESENT**: Proceed with normal completion workflow
+5. Mark task as complete in dependency graph
+6. Release dependent tasks for execution
 
 **If Status = "failed":**
 1. Read `Issues Encountered` section for error details
@@ -273,6 +292,13 @@ After phase completion, append summary to `apa/[branch]/memory/memory-root.md`:
 - If the plan lacks these fields or is ambiguous, halt and report the issue to the user before starting execution.
 
 ### 4.2 Live Plan Maintenance (Runtime)
+
+Read `.apa/guides/living-plan-philosophy.md` when task discoveries suggest plan updates may be needed:
+- **When to read**: After processing task reports with `important_findings: true` or `compatibility_issues: true`
+- **Purpose**: Determine if discovery warrants continuous refinement (autonomous) or strategic reassessment (user-involved)
+- **Apply**: Update plans when discoveries materially affect subsequent tasks
+- **Document**: Record all plan modifications in the modification log
+
 **Critical Protocol:** The `apa/[branch]/implementation-plan.md` is the source of truth. You must prevent entropy.
 - **Syncing:** When new tasks, errors, or requirements emerge from Memory Logs or subagent findings, update the plan.
 - **Integrity Check:** Before writing updates, read the plan's current header and structure. Your update MUST match the existing Markdown schema (headers, bullet points, meta-fields).

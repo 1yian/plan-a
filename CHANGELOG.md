@@ -1,3 +1,11 @@
+# [1.4.0](https://github.com/1yian/apa/compare/v1.3.1...v1.4.0) (2026-01-22)
+
+
+### Features
+
+* add specialized Data Science and EDA workflow guide ([4efc2cb](https://github.com/1yian/apa/commit/4efc2cb7c1f6c32b2fd17a4eacd873f59d069206))
+* integrate Spec-Kit workflow with APA multi-agent orchestration ([2b9748e](https://github.com/1yian/apa/commit/2b9748e991793ead4e016ee5b38f593a762cfc64))
+
 ## [1.3.1](https://github.com/1yian/apa/compare/v1.3.0...v1.3.1) (2026-01-22)
 
 

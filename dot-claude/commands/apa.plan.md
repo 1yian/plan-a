@@ -29,6 +29,8 @@ This command operates within an active APA session. Before proceeding:
    - Task complexity estimates to adjust
    - Planning assumptions that should be revised
    - Performance notes that inform realistic planning
+4. **Check for existing specification**: If `apa/[branch]/specification.md` exists (created via `/apa.specify`), read it to use as foundation for Context Synthesis
+5. **Check for project constitution**: If `apa/[branch]/constitution.md` exists, read it to understand project principles and constraints that must guide planning
 
 All output will be written to the session directory at `apa/[branch]/`.
 
@@ -45,10 +47,16 @@ Read `.apa/guides/context-synthesis-guide.md` for detailed question procedures.
 Execute ALL question rounds in strict sequence with iterative follow-ups:
 
 #### QR1: Existing Material and Vision (ITERATIVE)
-- Ask about deliverable type(s) being created
-- Inquire about existing materials (PRD, specs, user stories, architecture, code)
-- Gather current plan or vision if not covered by materials
-- Request important files/documentation for existing codebases
+- **If specification exists** (`apa/[branch]/specification.md`):
+  - Read the specification to understand feature requirements, user stories, and acceptance criteria
+  - Use specification as foundation for Context Synthesis
+  - Focus questions on clarifying any [NEEDS CLARIFICATION] markers or ambiguities
+  - Skip basic "what are you building" questions since spec provides this
+- **If no specification exists**:
+  - Ask about deliverable type(s) being created
+  - Inquire about existing materials (PRD, specs, user stories, architecture, code)
+  - Gather current plan or vision if not covered by materials
+  - Request important files/documentation for existing codebases
 - **Continue follow-ups until foundation/vision/materials understanding is complete**
 
 #### QR2: Targeted Inquiry (ITERATIVE)
@@ -61,10 +69,16 @@ Execute ALL question rounds in strict sequence with iterative follow-ups:
 - **Continue follow-ups until work structure/constraints/environment understanding is complete**
 
 #### QR3: Requirements & Process Gathering (ITERATIVE)
-- Workflow patterns and quality standards
-- Technical constraints and implementation preferences
-- Coordination requirements and review processes
-- Consistency standards and documentation requirements
+- **If constitution exists** (`apa/[branch]/constitution.md`):
+  - Read the constitution to understand project principles, quality standards, and technical constraints
+  - Use constitution as baseline for requirements gathering
+  - Focus questions on project-specific details not covered by constitution
+  - Skip questions about standards/constraints already defined in constitution
+- **If no constitution exists**:
+  - Workflow patterns and quality standards
+  - Technical constraints and implementation preferences
+  - Coordination requirements and review processes
+  - Consistency standards and documentation requirements
 - **Continue follow-ups until process/implementation/coordination understanding is complete**
 
 #### QR4: Final Validation (MANDATORY)
@@ -93,6 +107,7 @@ Execute the entire breakdown in a single response using interleaved chat-to-file
 - Identify major work domains from retained context
 - Flag complexity areas and external dependencies
 - Note investigation needs and workflow patterns
+- **If constitution exists**: Verify alignment with project principles and identify potential violations
 
 #### Step 2: Phase Definition
 - Transform retained workflow patterns into logical phase structure
@@ -131,8 +146,41 @@ For each task, analyze:
 - Append phase content to implementation plan after chat analysis complete
 - Use structured format (Phase heading, Task blocks with Objective/Output/Guidance)
 
-#### Step 4: Final Review
+#### Step 4: Constitution Compliance Check (if applicable)
+
+**If constitution exists** (`apa/[branch]/constitution.md`):
+
+1. **Review implementation plan against constitution**:
+   - Verify alignment with core principles
+   - Check compliance with quality standards
+   - Validate technical constraints are respected
+   - Ensure implementation guidelines are followed
+
+2. **Document compliance** in implementation plan:
+   - Add "Constitution Compliance" section after plan summary
+   - List each principle and how the plan addresses it
+   - Flag any violations with justification
+
+3. **Complexity tracking for violations**:
+   - If any constitution principles are violated, document in complexity tracking table:
+   
+   ```markdown
+   ## Constitution Compliance
+   
+   | Principle | Compliance | Notes |
+   |-----------|------------|-------|
+   | [Principle 1] | ✓ Compliant | [How plan addresses this] |
+   | [Principle 2] | ⚠ Violation | [Why violation necessary, alternatives rejected] |
+   ```
+
+4. **Request user approval** if violations exist:
+   - Present violations with justification
+   - Explain why alternatives were rejected
+   - Get explicit approval before proceeding
+
+#### Step 5: Final Review
 - Present plan overview statistics
+- Summarize constitution compliance (if applicable)
 - Request user review and approval
 - Handle modification requests through targeted revisions
 
